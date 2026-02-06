@@ -1,0 +1,27 @@
+stages:
+  - docs
+  - pages
+
+docs:build:
+  image:
+    name: docker.nix-community.org/nixpkgs/nix-flakes:latest
+  stage: docs
+  script:
+    - nix build ./docs#html
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+
+pages:
+  image:
+    name: docker.nix-community.org/nixpkgs/nix-flakes:latest
+  stage: pages
+  script:
+    - nix build ./docs#html
+    - mkdir -p public
+    - cp -r result/share/doc/demo-ops-docs/html/* public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"

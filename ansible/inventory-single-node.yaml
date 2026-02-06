@@ -1,0 +1,19 @@
+all:
+  hosts:
+    demo-single-node:
+      ansible_host: 10.0.0.10
+  children:
+    initial_controller:
+      hosts:
+        demo-single-node:
+    controllers:
+      hosts:
+    workers:
+      hosts:
+    workers_to_join:
+      hosts:
+  vars:
+    ansible_user: root
+    artifacts_dir: "{{ inventory_dir }}/artifacts/demo-single-node"
+    nixos_flake: ..
+    skip_rook_ceph: true
