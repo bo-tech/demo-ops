@@ -1,6 +1,4 @@
-{...}: let
-  sshPubKey = builtins.readFile ../../.secrets/ssh_key.pub;
-in {
+{sshPubKey, ...}: {
   networking.hostName = "demo-single-node";
 
   networking.nameservers = ["10.0.0.1"];
@@ -17,7 +15,7 @@ in {
       api.address = "10.0.0.10";
       api.sans = ["10.0.0.10"];
     };
-    isLeader = true;
+    controller.isLeader = true;
     role = "controller+worker";
   };
 
