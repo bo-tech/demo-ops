@@ -3,6 +3,9 @@
 Example deployment showing how to consume
 [business-operations](https://github.com/bo-tech/business-operations).
 
+This repository defines a minimal single-node k0s cluster on a QEMU VM,
+covering NixOS deployment and cluster formation up to `fetch_kubeconfig`.
+
 
 ## Status - Experimental
 
@@ -20,7 +23,9 @@ Generate an SSH key pair (used by NixOS to authorize access):
 nix run .#generate-secrets
 ```
 
-Keys are written to `.secrets/` (git-ignored).
+Keys are written to `.secrets/` (git-ignored). The public key is
+additionally copied to `.secrets/deploy-keys/` for use as a flake
+input override during deployment.
 
 
 ## Deployment
@@ -36,6 +41,7 @@ Deploy NixOS and bootstrap the cluster (from the `ansible/` directory):
 ```sh
 cd ansible
 ansible-playbook -i ./inventory-single-node.yaml \
+  --extra-vars nixos_extra_flags='--override-input deploy-keys path:../.secrets/deploy-keys' \
   $BO_PLAYBOOKS/re-create-machines.yaml
 ```
 

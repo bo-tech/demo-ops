@@ -19,6 +19,18 @@
         "type": "github"
       }
     },
+    "deploy-keys": {
+      "flake": false,
+      "locked": {
+        "path": "./deploy-keys",
+        "type": "path"
+      },
+      "original": {
+        "path": "./deploy-keys",
+        "type": "path"
+      },
+      "parent": []
+    },
     "disko": {
       "inputs": {
         "nixpkgs": [
@@ -130,6 +142,7 @@
     "root": {
       "inputs": {
         "business-operations": "business-operations",
+        "deploy-keys": "deploy-keys",
         "disko": "disko",
         "flake-utils": "flake-utils_2",
         "k0s-nix": "k0s-nix",

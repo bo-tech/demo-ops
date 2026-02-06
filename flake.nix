@@ -14,9 +14,15 @@
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
+  inputs.deploy-keys = {
+    url = "path:./deploy-keys";
+    flake = false;
+  };
+
   outputs = {
     self,
     business-operations,
+    deploy-keys,
     disko,
     flake-utils,
     k0s-nix,
@@ -29,8 +35,9 @@
         generate-secrets = pkgs.writeShellScriptBin "generate-secrets" ''
           set -euo pipefail
           secrets_dir=".secrets"
+          deploy_keys_dir="$secrets_dir/deploy-keys"
 
-          mkdir -p "$secrets_dir"
+          mkdir -p "$secrets_dir" "$deploy_keys_dir"
           chmod 0700 "$secrets_dir"
 
           if [ -f "$secrets_dir/ssh_key" ]; then
@@ -41,7 +48,9 @@
           ${pkgs.openssh}/bin/ssh-keygen \
             -t ed25519 -N "" -f "$secrets_dir/ssh_key"
           chmod 0600 "$secrets_dir/ssh_key" "$secrets_dir/ssh_key.pub"
+          cp "$secrets_dir/ssh_key.pub" "$deploy_keys_dir/ssh_key.pub"
           echo "Generated SSH key pair in $secrets_dir/"
+          echo "Public key copied to $deploy_keys_dir/ for deployment."
         '';
       in {
         apps.generate-secrets = {
@@ -52,6 +61,9 @@
     )
     // {
       nixosConfigurations = let
+        sshPubKey =
+          builtins.readFile "${deploy-keys}/ssh_key.pub";
+
         sharedModules = [
           business-operations.nixosModules.profile-k0s-node
           disko.nixosModules.disko
@@ -65,6 +77,7 @@
           hardwareModule,
         }:
           nixpkgs.lib.nixosSystem {
+            specialArgs = {inherit sshPubKey;};
             modules = [nixpkgsConfig hardwareModule] ++ sharedModules;
           };
       in {
