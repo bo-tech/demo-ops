@@ -3,9 +3,6 @@
 Example deployment showing how to consume
 [business-operations](https://github.com/bo-tech/business-operations).
 
-This repository defines a minimal single-node k0s cluster on a QEMU VM,
-covering NixOS deployment and cluster formation up to `fetch_kubeconfig`.
-
 
 ## Status - Experimental
 
