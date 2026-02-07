@@ -97,6 +97,17 @@
           specialArgs = {inherit sshPubKey;};
           modules =
             [
+              self.nixosModules.nixpkgs-config
+              ./nixos/hardware/vm/qemu.nix
+              ./nixos/hosts/dev.nix
+            ]
+            ++ sharedModules;
+        };
+
+        dev-aarch64 = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit sshPubKey;};
+          modules =
+            [
               self.nixosModules.nixpkgs-config-aarch64
               ./nixos/hardware/vm/qemu.nix
               ./nixos/hosts/dev.nix

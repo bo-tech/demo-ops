@@ -27,17 +27,14 @@ nix run .#generate-secrets
 Note that the handling of the SSH public key is at best a "hack" at the moment.
 Nix flakes will only take files into account which git sees.
 
+
+## Configuration
+
+`dev.nix` is used to deploy into a single node local VM, adjust the IP address
+in here and in the corresponding inventory file.
+
+
 ## Deployment
-
-Deploy a single machine with nixos-anywhere:
-
-```sh
-nix run github:nix-community/nixos-anywhere -- \
-  --flake '.#demo-single-node' \
-  --target-host root@192.0.2.10
-```
-
-Alternatively, use ansible to deploy and bootstrap the full cluster.
 
 Enter the ansible shell from business-operations:
 
@@ -52,7 +49,18 @@ cd ansible
 ansible-playbook -i ./inventory-single-node.yaml $BO_PLAYBOOKS/re-create-machines.yaml
 ```
 
-For aarch64 VMs use `inventory-single-node-aarch64.yaml` instead.
+For aarch64 VMs use the `-aarch64` inventory variants instead
+(e.g. `inventory-single-node-aarch64.yaml`, `inventory-dev-aarch64.yaml`).
+
+### Alternatives
+
+Deploy a single machine with nixos-anywhere:
+
+```sh
+nix run github:nix-community/nixos-anywhere -- \
+  --flake '.#demo-single-node' \
+  --target-host root@192.0.2.10
+```
 
 
 ## Useful Commands

@@ -1,0 +1,29 @@
+all:
+  hosts:
+    dev-aarch64:
+      ansible_host: 192.168.65.7
+  children:
+    initial_controller:
+      hosts:
+        dev-aarch64:
+    controllers:
+      hosts:
+    workers:
+      hosts:
+    workers_to_join:
+      hosts:
+  vars:
+    ansible_user: root
+    artifacts_dir: "{{ inventory_dir }}/artifacts/dev"
+    nixos_flake: "{{ inventory_dir }}/.."
+    skip_rook_ceph: true
+    nixos_anywhere_extra_flags: "--no-substitute-on-destination"
+
+    # TODO: Code below still has to be moved
+    cilium_helmrelease_path: "../../b-ops/kubernetes/cluster-0/base-apps/kube-system/cilium/app/helmrelease.yaml"
+    cilium_values_files:
+      - "../../b-ops/kubernetes/cluster-0/base-apps/kube-system/cilium/app/values.yaml"
+      - "../../b-ops/kubernetes/cluster-0/base-apps/kube-system/cilium/app/values-no-dashboards.yaml"
+    openebs_helmrelease_path: "../../b-ops/kubernetes/cluster-0/base-apps/openebs/openebs/app/helmrelease.yaml"
+    openebs_values_files:
+      - "../../b-ops/kubernetes/cluster-0/base-apps/openebs/openebs/app/values.yaml"
