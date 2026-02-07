@@ -1,7 +1,7 @@
 all:
   hosts:
     demo-single-node-aarch64:
-      ansible_host: 10.0.0.11
+      ansible_host: 192.0.2.11
   children:
     initial_controller:
       hosts:

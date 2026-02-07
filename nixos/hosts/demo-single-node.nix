@@ -1,19 +1,19 @@
 {sshPubKey, ...}: {
   networking.hostName = "demo-single-node";
 
-  networking.nameservers = ["10.0.0.1"];
-  networking.defaultGateway = "10.0.0.1";
+  networking.nameservers = ["192.0.2.1"];
+  networking.defaultGateway = "192.0.2.1";
   networking.interfaces.enp0s1.ipv4.addresses = [
     {
-      address = "10.0.0.10";
+      address = "192.0.2.10";
       prefixLength = 24;
     }
   ];
 
   services.k0s = {
     spec = {
-      api.address = "10.0.0.10";
-      api.sans = ["10.0.0.10"];
+      api.address = "192.0.2.10";
+      api.sans = ["192.0.2.10"];
     };
     controller.isLeader = true;
     role = "controller+worker";
