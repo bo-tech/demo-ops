@@ -11,10 +11,7 @@
   ];
 
   services.k0s = {
-    spec = {
-      api.address = "192.0.2.10";
-      api.sans = ["192.0.2.10"];
-    };
+    spec.api.address = "192.0.2.10";
     controller.isLeader = true;
     role = "controller+worker";
   };
