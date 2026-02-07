@@ -69,26 +69,30 @@
           disko.nixosModules.disko
           k0s-nix.nixosModules.default
           ./nixos/machine-classes/k0s-node-vm-disks.nix
-          ./nixos/hosts/demo-single-node.nix
         ];
-
-        mkHost = {
-          nixpkgsConfig,
-          hardwareModule,
-        }:
-          nixpkgs.lib.nixosSystem {
-            specialArgs = {inherit sshPubKey;};
-            modules = [nixpkgsConfig hardwareModule] ++ sharedModules;
-          };
       in {
-        demo-single-node = mkHost {
-          nixpkgsConfig = self.nixosModules.nixpkgs-config;
-          hardwareModule = ./nixos/hardware/vm/qemu.nix;
+        demo-single-node = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit sshPubKey;};
+          modules =
+            [
+              self.nixosModules.nixpkgs-config
+              ./nixos/hardware/vm/qemu.nix
+              ./nixos/hosts/demo-single-node.nix
+            ]
+            ++ sharedModules;
         };
 
-        demo-single-node-aarch64 = mkHost {
-          nixpkgsConfig = self.nixosModules.nixpkgs-config-aarch64;
-          hardwareModule = ./nixos/hardware/vm/qemu.nix;
+        demo-single-node-aarch64 = nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit sshPubKey;};
+          modules =
+            [
+              self.nixosModules.nixpkgs-config-aarch64
+              ./nixos/hardware/vm/qemu.nix
+              ./nixos/hosts/demo-single-node.nix
+            ]
+            ++ sharedModules;
+        };
+
         };
       };
 
