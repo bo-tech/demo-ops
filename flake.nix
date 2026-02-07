@@ -83,12 +83,12 @@
       in {
         demo-single-node = mkHost {
           nixpkgsConfig = self.nixosModules.nixpkgs-config;
-          hardwareModule = ./nixos/hardware/vm/amd64-qemu.nix;
+          hardwareModule = ./nixos/hardware/vm/qemu.nix;
         };
 
         demo-single-node-aarch64 = mkHost {
           nixpkgsConfig = self.nixosModules.nixpkgs-config-aarch64;
-          hardwareModule = ./nixos/hardware/vm/aarch64-qemu.nix;
+          hardwareModule = ./nixos/hardware/vm/qemu.nix;
         };
       };
 
