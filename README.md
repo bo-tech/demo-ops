@@ -16,8 +16,9 @@ not yet included.
 ## Prerequisites
 
 - [Nix](https://nixos.org/) with flakes enabled
+- ssh public key into `.secrets/deploy-keys/ssh_key.pub`.
 
-Generate an SSH key pair (used by NixOS to authorize access):
+Copy your public key or generate a SSH key pair:
 
 ```sh
 nix run .#generate-secrets
