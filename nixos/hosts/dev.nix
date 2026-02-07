@@ -3,10 +3,7 @@
   networking.useDHCP = true;
 
   services.k0s = {
-    spec = {
-      api.address = "192.168.65.7";
-      api.sans = ["192.168.65.7"];
-    };
+    spec.api.address = "192.168.65.7";
     controller.isLeader = true;
     role = "controller+worker";
   };
