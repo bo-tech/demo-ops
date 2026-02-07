@@ -94,11 +94,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1770278630,
-        "narHash": "sha256-0d9umnwNE+Qh9GQdh8WNP7FXWhKyAPor5LYAUGql+w8=",
+        "lastModified": 1770483050,
+        "narHash": "sha256-lrW/zQoX/1gQARkLtj/Qv8VPv3DWYowPulQ8L5vRCJQ=",
         "owner": "johbo",
         "repo": "k0s-nix",
-        "rev": "ae65911ae24b023b5bd8de8bd2b6b0abe07c0f4c",
+        "rev": "2ff33e005a3ee728c9fdbc64e0b831f12b1195a4",
         "type": "github"
       },
       "original": {
