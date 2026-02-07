@@ -40,8 +40,8 @@
           mkdir -p "$secrets_dir" "$deploy_keys_dir"
           chmod 0700 "$secrets_dir"
 
-          if [ -f "$secrets_dir/ssh_key" ]; then
-            echo "Keys already exist in $secrets_dir/, skipping."
+          if [ -f "$deploy_keys_dir/ssh_key.pub" ]; then
+            echo "Keys already exist in $deploy_keys_dir/, skipping."
             exit 0
           fi
 
