@@ -16,7 +16,7 @@ not yet included.
 ## Prerequisites
 
 - [Nix](https://nixos.org/) with flakes enabled
-- ssh public key into `.secrets/deploy-keys/ssh_key.pub`.
+- ssh public key into `deploy-keys/ssh_key.pub`.
 
 Copy your public key or generate a SSH key pair:
 
@@ -24,12 +24,20 @@ Copy your public key or generate a SSH key pair:
 nix run .#generate-secrets
 ```
 
-Keys are written to `.secrets/` (git-ignored). The public key is
-additionally copied to `.secrets/deploy-keys/` for use as a flake
-input override during deployment.
-
+Note that the handling of the SSH public key is at best a "hack" at the moment.
+Nix flakes will only take files into account which git sees.
 
 ## Deployment
+
+Deploy a single machine with nixos-anywhere:
+
+```sh
+nix run github:nix-community/nixos-anywhere -- \
+  --flake '.#demo-single-node' \
+  --target-host root@192.0.2.10
+```
+
+Alternatively, use ansible to deploy and bootstrap the full cluster.
 
 Enter the ansible shell from business-operations:
 
@@ -41,9 +49,7 @@ Deploy NixOS and bootstrap the cluster (from the `ansible/` directory):
 
 ```sh
 cd ansible
-ansible-playbook -i ./inventory-single-node.yaml \
-  --extra-vars nixos_extra_flags='--override-input deploy-keys path:../.secrets/deploy-keys' \
-  $BO_PLAYBOOKS/re-create-machines.yaml
+ansible-playbook -i ./inventory-single-node.yaml $BO_PLAYBOOKS/re-create-machines.yaml
 ```
 
 For aarch64 VMs use `inventory-single-node-aarch64.yaml` instead.
@@ -51,41 +57,54 @@ For aarch64 VMs use `inventory-single-node-aarch64.yaml` instead.
 
 ## Useful Commands
 
-The following commands should help with building or inspecting the setup,
-without deploying anything.
-
-Inject public keys with an input override:
+Use a local clone of business-operations for development iteration:
 
 ```sh
-export DEPLOY_KEYS=(--override-input deploy-keys path:./.secrets/deploy-keys)
+nix flake lock --override-input business-operations path:../business-operations
 ```
 
 Build the system closure:
 
 ```sh
-nix build '.#nixosConfigurations.demo-single-node.config.system.build.toplevel' \
-  "${DEPLOY_KEYS[@]}"
+nix build '.#nixosConfigurations.demo-single-node.config.system.build.toplevel'
 ```
 
 Deploy to a running machine via `nixos-rebuild`:
 
 ```sh
 nixos-rebuild switch --flake '.#demo-single-node' \
-  --target-host root@192.0.2.10 \
-  "${DEPLOY_KEYS[@]}"
+  --target-host root@192.0.2.10
 ```
 
 Inspect configuration values:
 
 ```sh
-# Check which SSH keys will be deployed
-nix eval '.#nixosConfigurations.demo-single-node.config.users.users.root.openssh.authorizedKeys.keys' \
-  "${DEPLOY_KEYS[@]}"
-
-# Check the hostname
-nix eval '.#nixosConfigurations.demo-single-node.config.networking.hostName' \
-  "${DEPLOY_KEYS[@]}"
+nix eval '.#nixosConfigurations.demo-single-node.config.networking.hostName'
 ```
+
+
+## Known Problems
+
+### kexec hangs on aarch64 VMs (UTM/QEMU on Apple Silicon)
+
+When re-deploying an already installed machine, nixos-anywhere uses kexec to
+boot into the NixOS installer. On aarch64 VMs under UTM/QEMU with Apple
+Hypervisor.framework, kexec may cause the VM to hang. Possible causes include
+missing kernel config, PSCI/CPU enable method mismatches, or HVF not properly
+handing off hypervisor state during kexec.
+
+**Workaround:** Boot the VM from the NixOS installer ISO before re-deploying
+and skip the kexec phase:
+
+```sh
+nix run github:nix-community/nixos-anywhere -- \
+  --flake '.#demo-single-node' \
+  --phases disko,install,reboot \
+  --target-host root@192.0.2.10
+```
+
+When using ansible, set `nixos_anywhere_extra_flags` in your inventory
+accordingly.
 
 
 ## Contact
