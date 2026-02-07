@@ -15,5 +15,5 @@ all:
   vars:
     ansible_user: root
     artifacts_dir: "{{ inventory_dir }}/artifacts/demo-single-node-aarch64"
-    nixos_flake: ..
+    nixos_flake: "{{ inventory_dir }}/.."
     skip_rook_ceph: true
