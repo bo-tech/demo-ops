@@ -35,13 +35,13 @@
         generate-secrets = pkgs.writeShellScriptBin "generate-secrets" ''
           set -euo pipefail
           secrets_dir=".secrets"
-          deploy_keys_dir="$secrets_dir/deploy-keys"
+          deploy_keys_dir="deploy-keys"
 
-          mkdir -p "$secrets_dir" "$deploy_keys_dir"
+          mkdir -p "$secrets_dir"
           chmod 0700 "$secrets_dir"
 
           if [ -f "$deploy_keys_dir/ssh_key.pub" ]; then
-            echo "Keys already exist in $deploy_keys_dir/, skipping."
+            echo "Keys already exist, skipping."
             exit 0
           fi
 
