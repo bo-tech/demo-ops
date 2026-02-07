@@ -6,11 +6,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1770378371,
-        "narHash": "sha256-9G2Lebdk/whehyvrzoO2UMBSmbxri3TbE7dzkUvhO+A=",
+        "lastModified": 1770475448,
+        "narHash": "sha256-rdUyuoZmtGSIAdQ5XKBNvd+5os6QbTa+wmJuOVLM18U=",
         "owner": "bo-tech",
         "repo": "business-operations",
-        "rev": "1dc4b2dfc18f6758589faa479d1cc4d75848b6c5",
+        "rev": "d321ec515bc8028318389042f1c8718cc743ae02",
         "type": "github"
       },
       "original": {
