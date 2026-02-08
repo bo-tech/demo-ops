@@ -1,0 +1,32 @@
+# Disables dashboards and prometheus stats and the Hubble UI.
+#
+# Needed when the CRDs are not yet deployed.
+
+dashboards:
+  enabled: false
+
+hubble:
+  metrics:
+    serviceMonitor:
+      enabled: false
+    dashboards:
+      enabled: false
+  relay:
+    prometheus:
+      serviceMonitor:
+        enabled: false
+  ui:
+    enabled: false
+
+operator:
+  prometheus:
+    enabled: false
+    serviceMonitor:
+      enabled: false
+  dashboards:
+    enabled: false
+
+prometheus:
+  enabled: false
+  serviceMonitor:
+    enabled: false

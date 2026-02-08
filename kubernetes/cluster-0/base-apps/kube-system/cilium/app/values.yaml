@@ -1,0 +1,109 @@
+autoDirectNodeRoutes: false
+
+cluster:
+  name: local
+
+dashboards:
+  enabled: true
+  annotations:
+    grafana_folder: Cilium
+
+externalIPs:
+  enabled: true
+
+hubble:
+  enabled: true
+  metrics:
+    enabled:
+      - dns:query
+      - drop
+      - tcp
+      - flow
+      - port-distribution
+      - icmp
+      - http
+    serviceMonitor:
+      enabled: true
+    dashboards:
+      enabled: true
+      annotations:
+        grafana_folder: Cilium
+  relay:
+    enabled: true
+    rollOutPods: true
+    prometheus:
+      serviceMonitor:
+        enabled: true
+  ui:
+    enabled: true
+    rollOutPods: true
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        hajimari.io/enable: "true"
+      hosts:
+        - &host hubble.${cluster_domain}
+      tls:
+        - hosts:
+            - *host
+
+# Required to be able to use "l2announcements"
+k8sServiceHost: "${cluster_service_host}"
+k8sServicePort: 6443
+k8sClientRateLimit:
+  qps: 35
+  burst: 60
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+
+l2announcements:
+  enabled: true
+  leaseDuration: 120s
+  leaseRenewDeadline: 60s
+  leaseRetryPeriod: 1s
+
+socketLB:
+  hostNamespaceOnly: true
+
+bpf:
+  lbExternalClusterIP: true
+  # masquerade: true
+  # hostLegacyRouting: true
+
+# devices:
+#   - eno1
+#   - enp1s0
+#   - wg+
+
+loadBalancer:
+  algorithm: maglev
+  # mode: dsr
+
+operator:
+  replicas: 1
+  rollOutPods: true
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  dashboards:
+    enabled: true
+    annotations:
+      grafana_folder: Cilium
+
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    trustCRDsExist: true
+
+rollOutCiliumPods: true
+
+serviceAccounts:
+  cilium:
+    name: cilium
+  operator:
+    name: cilium-operator
+
+upgradeCompatibility: "1.15"
