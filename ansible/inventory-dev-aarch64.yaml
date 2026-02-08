@@ -19,11 +19,10 @@ all:
     skip_rook_ceph: true
     nixos_anywhere_extra_flags: "--no-substitute-on-destination"
 
-    # TODO: Code below still has to be moved
-    cilium_helmrelease_path: "../../b-ops/kubernetes/cluster-0/base-apps/kube-system/cilium/app/helmrelease.yaml"
+    cilium_helmrelease_path: "../kubernetes/cluster-0/base-apps/kube-system/cilium/app/helmrelease.yaml"
     cilium_values_files:
-      - "../../b-ops/kubernetes/cluster-0/base-apps/kube-system/cilium/app/values.yaml"
-      - "../../b-ops/kubernetes/cluster-0/base-apps/kube-system/cilium/app/values-no-dashboards.yaml"
-    openebs_helmrelease_path: "../../b-ops/kubernetes/cluster-0/base-apps/openebs/openebs/app/helmrelease.yaml"
+      - "../kubernetes/cluster-0/base-apps/kube-system/cilium/app/values.yaml"
+      - "../kubernetes/cluster-0/base-apps/kube-system/cilium/app/values-no-dashboards.yaml"
+    openebs_helmrelease_path: "../kubernetes/cluster-0/base-apps/openebs/openebs/app/helmrelease.yaml"
     openebs_values_files:
-      - "../../b-ops/kubernetes/cluster-0/base-apps/openebs/openebs/app/values.yaml"
+      - "../kubernetes/cluster-0/base-apps/openebs/openebs/app/values.yaml"

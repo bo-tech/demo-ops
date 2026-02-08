@@ -17,3 +17,10 @@ all:
     artifacts_dir: "{{ inventory_dir }}/artifacts/demo-single-node-aarch64"
     nixos_flake: "{{ inventory_dir }}/.."
     skip_rook_ceph: true
+    cilium_helmrelease_path: "../kubernetes/cluster-0/base-apps/kube-system/cilium/app/helmrelease.yaml"
+    cilium_values_files:
+      - "../kubernetes/cluster-0/base-apps/kube-system/cilium/app/values.yaml"
+      - "../kubernetes/cluster-0/base-apps/kube-system/cilium/app/values-no-dashboards.yaml"
+    openebs_helmrelease_path: "../kubernetes/cluster-0/base-apps/openebs/openebs/app/helmrelease.yaml"
+    openebs_values_files:
+      - "../kubernetes/cluster-0/base-apps/openebs/openebs/app/values.yaml"
