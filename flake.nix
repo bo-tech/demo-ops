@@ -10,7 +10,7 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
   inputs.business-operations.url =
-    "path:./external/business-operations";
+    "git+https://codeberg.org/business-operations/business-operations";
 
   outputs = {
     self,
