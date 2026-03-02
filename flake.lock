@@ -3,20 +3,21 @@
     "business-operations": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "k0s-nix": "k0s-nix",
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1770475448,
-        "narHash": "sha256-rdUyuoZmtGSIAdQ5XKBNvd+5os6QbTa+wmJuOVLM18U=",
-        "owner": "bo-tech",
-        "repo": "business-operations",
-        "rev": "d321ec515bc8028318389042f1c8718cc743ae02",
-        "type": "github"
+        "lastModified": 1772365820,
+        "narHash": "sha256-5zcWmgOHqHwtMMUnI536e/lYw+U6+SfzoeCIhpNyC+U=",
+        "ref": "refs/heads/main",
+        "rev": "a8c49ba59fd2b05f296ae64ddfe7b5c219a45b73",
+        "revCount": 120,
+        "type": "git",
+        "url": "https://codeberg.org/business-operations/business-operations"
       },
       "original": {
-        "owner": "bo-tech",
-        "repo": "business-operations",
-        "type": "github"
+        "type": "git",
+        "url": "https://codeberg.org/business-operations/business-operations"
       }
     },
     "deploy-keys": {
@@ -90,6 +91,27 @@
     "k0s-nix": {
       "inputs": {
         "nixpkgs": [
+          "business-operations",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770822504,
+        "narHash": "sha256-PABHd6BnWL21XD9ER5ARAE5E7OFe/V30RUe/rpw4r2Q=",
+        "owner": "johbo",
+        "repo": "k0s-nix",
+        "rev": "f711400587df6ca465a15f357b04eceacd718a97",
+        "type": "github"
+      },
+      "original": {
+        "owner": "johbo",
+        "repo": "k0s-nix",
+        "type": "github"
+      }
+    },
+    "k0s-nix_2": {
+      "inputs": {
+        "nixpkgs": [
           "nixpkgs"
         ]
       },
@@ -145,7 +167,7 @@
         "deploy-keys": "deploy-keys",
         "disko": "disko",
         "flake-utils": "flake-utils_2",
-        "k0s-nix": "k0s-nix",
+        "k0s-nix": "k0s-nix_2",
         "nixpkgs": "nixpkgs_2"
       }
     },
