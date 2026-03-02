@@ -1,4 +1,10 @@
 {
+  boot.kernelParams = [
+    # Use classic eth0 naming across VM hypervisors (QEMU, UTM) to simplify
+    # configuration.
+    "net.ifnames=0"
+  ];
+
   networking.hostName = "demo-single-node";
 
   custom.business-operations = {
