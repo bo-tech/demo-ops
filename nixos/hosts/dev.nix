@@ -1,24 +1,21 @@
-{sshPubKey, ...}: {
+{
   networking.hostName = "dev";
-  networking.useDHCP = true;
 
-  services.k0s = {
-    spec.api.address = "192.168.65.7";
-    controller.isLeader = true;
-    role = "controller+worker";
-  };
-
-  users.users.root.openssh.authorizedKeys.keys = [sshPubKey];
-
-  users.users.admin = {
-    isNormalUser = true;
-    extraGroups = ["wheel"];
-    openssh.authorizedKeys.keys = [sshPubKey];
+  custom.business-operations = {
+    enable = true;
+    role = "single-node";
+    serialConsole = true;
+    network = {
+      address = "192.0.2.20";
+      gateway = "192.0.2.1";
+      interface = "ens3";
+    };
+    sshAuthorizedKeys = [
+      "ssh-ed25519 AAAA... user@host"
+    ];
   };
 
   services.getty.autologinUser = "root";
-
-  security.sudo.wheelNeedsPassword = false;
 
   system.stateVersion = "25.11";
 }

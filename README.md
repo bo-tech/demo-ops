@@ -16,22 +16,14 @@ not yet included.
 ## Prerequisites
 
 - [Nix](https://nixos.org/) with flakes enabled
-- ssh public key into `deploy-keys/ssh_key.pub`.
-
-Copy your public key or generate a SSH key pair:
-
-```sh
-nix run .#generate-secrets
-```
-
-Note that the handling of the SSH public key is at best a "hack" at the moment.
-Nix flakes will only take files into account which git sees.
+- A machine reachable via SSH with a routable IP address
 
 
 ## Configuration
 
-`dev.nix` is used to deploy into a single node local VM, adjust the IP address
-in here and in the corresponding inventory file.
+Edit your host config in `nixos/hosts/` — set the IP address, gateway,
+network interface, and your SSH public key. Then adjust the matching
+ansible inventory file in `ansible/`.
 
 
 ## Deployment
@@ -39,7 +31,7 @@ in here and in the corresponding inventory file.
 Enter the ansible shell from business-operations:
 
 ```sh
-nix develop git+https://codeberg.org/business-operations/business-operations#ansible
+nix develop ./external/business-operations#ansible
 ```
 
 Deploy NixOS and bootstrap the cluster (from the `ansible/` directory):
@@ -64,12 +56,6 @@ nix run github:nix-community/nixos-anywhere -- \
 
 
 ## Useful Commands
-
-Use a local clone of business-operations for development iteration:
-
-```sh
-nix flake lock --override-input business-operations path:../business-operations
-```
 
 Build the system closure:
 
