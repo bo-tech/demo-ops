@@ -6,6 +6,7 @@ demo-ops
    :maxdepth: 2
    :caption: Contents
 
+   run-qemu-vm
    decision-log
 
 
