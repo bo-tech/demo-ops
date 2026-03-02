@@ -1,0 +1,3 @@
+[submodule "external/business-operations"]
+	path = external/business-operations
+	url = https://codeberg.org/business-operations/business-operations.git
