@@ -2,6 +2,9 @@ all:
   hosts:
     demo-single-node:
       ansible_host: 192.0.2.10
+    # Needed, so that "inventory_dir" is defined
+    localhost:
+      ansible_connection: local
   children:
     initial_controller:
       hosts:
