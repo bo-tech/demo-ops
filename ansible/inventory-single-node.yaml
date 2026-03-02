@@ -19,7 +19,6 @@ all:
     ansible_user: root
     artifacts_dir: "{{ inventory_dir }}/artifacts/demo-single-node"
     nixos_flake: "{{ inventory_dir }}/.."
-    skip_rook_ceph: false
     cilium_helmrelease_path: "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/helmrelease.yaml"
     cilium_values_files:
       - "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/values.yaml"
