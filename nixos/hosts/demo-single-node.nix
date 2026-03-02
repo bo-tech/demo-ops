@@ -20,5 +20,7 @@
     ];
   };
 
+  services.getty.autologinUser = "root";
+
   system.stateVersion = "25.11";
 }
