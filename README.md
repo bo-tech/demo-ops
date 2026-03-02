@@ -3,56 +3,60 @@
 Example deployment showing how to consume
 [business-operations](https://codeberg.org/business-operations/business-operations).
 
-This repository defines a minimal single-node k0s cluster on a QEMU VM,
-covering NixOS deployment and cluster formation up to `fetch_kubeconfig`.
+This repository defines a minimal single-node k0s cluster, covering
+NixOS deployment and cluster bootstrap with Cilium and OpenEBS.
 
 
 ## Status - Experimental
 
-This is an early example. Cilium, OpenEBS, and application layers are
-not yet included.
+This is an early example. Application layers are not yet included.
 
 
 ## Prerequisites
 
 - [Nix](https://nixos.org/) with flakes enabled
-- A machine reachable via SSH with a routable IP address
+- A machine reachable via SSH (bare-metal, cloud VM, or local QEMU/UTM VM)
+- Ideally the machine can claim multiple ip addresses
+
+Clone including the submodule:
+
+```sh
+git clone --recurse-submodules \
+  https://codeberg.org/business-operations/demo-ops.git
+```
 
 
 ## Configuration
 
-Edit your host config in `nixos/hosts/` — set the IP address, gateway,
+Edit a host config in `nixos/hosts/` — set the IP address, gateway,
 network interface, and your SSH public key. Then adjust the matching
 ansible inventory file in `ansible/`.
+
+For headless VMs, set `serialConsole = true` in the host config.
 
 
 ## Deployment
 
-Enter the ansible shell from business-operations:
-
-```sh
-nix develop ./external/business-operations#ansible
-```
-
-Deploy NixOS and bootstrap the cluster (from the `ansible/` directory):
-
-```sh
-cd ansible
-ansible-playbook -i ./inventory-single-node.yaml $BO_PLAYBOOKS/re-create-machines.yaml
-```
-
-For aarch64 VMs use the `-aarch64` inventory variants instead
-(e.g. `inventory-single-node-aarch64.yaml`, `inventory-dev-aarch64.yaml`).
-
-### Alternatives
-
-Deploy a single machine with nixos-anywhere:
+Deploy NixOS via `nixos-anywhere`. Make sure to adjust the example IP address in
+the following command:
 
 ```sh
 nix run github:nix-community/nixos-anywhere -- \
   --flake '.#demo-single-node' \
   --target-host root@192.0.2.10
 ```
+
+Bootstrap the cluster:
+
+```sh
+nix develop ./external/business-operations#ansible
+cd ansible
+ansible-playbook -i ./inventory-single-node.yaml \
+  $BO_PLAYBOOKS/bootstrap-existing-machines.yaml
+```
+
+For aarch64 VMs use the `-aarch64` inventory and flake config
+variants (e.g. `demo-single-node-aarch64`).
 
 
 ## Useful Commands
