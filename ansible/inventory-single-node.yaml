@@ -16,7 +16,7 @@ all:
     ansible_user: root
     artifacts_dir: "{{ inventory_dir }}/artifacts/demo-single-node"
     nixos_flake: "{{ inventory_dir }}/.."
-    skip_rook_ceph: true
+    skip_rook_ceph: false
     cilium_helmrelease_path: "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/helmrelease.yaml"
     cilium_values_files:
       - "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/values.yaml"
@@ -24,3 +24,11 @@ all:
     openebs_helmrelease_path: "../external/business-operations/kubernetes/base-apps/openebs/openebs/app/helmrelease.yaml"
     openebs_values_files:
       - "../external/business-operations/kubernetes/base-apps/openebs/openebs/app/values.yaml"
+    rook_ceph_operator_helmrelease_path: "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/operator/helmrelease.yaml"
+    rook_ceph_operator_values_files:
+      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/operator/values.yaml"
+      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/operator/values-no-dashboards.yaml"
+    rook_ceph_cluster_helmrelease_path: "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/helmrelease.yaml"
+    rook_ceph_cluster_values_files:
+      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values.yaml"
+      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values-no-dashboards.yaml"
