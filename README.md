@@ -53,8 +53,13 @@ Bootstrap the cluster:
 
 ```sh
 nix develop ./external/business-operations#ansible
-cd ansible
-ansible-playbook -i ./inventory-single-node.yaml \
+
+# You may have to refresh the host keys
+ansible-playbook -i ./ansible/inventory-single-node.yaml \
+  $BO_PLAYBOOKS/refresh-ssh-host-keys.yaml
+
+# Prepare the cluster base
+ansible-playbook -i ./ansible/inventory-single-node.yaml \
   $BO_PLAYBOOKS/bootstrap-existing-machines.yaml
 ```
 
