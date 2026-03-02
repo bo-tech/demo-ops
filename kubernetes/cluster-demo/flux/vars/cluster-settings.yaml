@@ -1,0 +1,58 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-settings
+  namespace: flux-system
+data:
+  # This corresponds to the directory name in which the cluster manifests can be found
+  cluster_name: cluster-demo
+
+  # Allows to select between "bootstrap", "restore", "restore-only" and "none"
+  #
+  # - none: No bootstrap action performed.
+  # - bootstrap: Bootstrap the system from scratch.
+  # - restore: Restore from backup and backup.
+  # - restore-only: Restore from backup but don't activate backup.
+  cluster_bootstrap_mode: none
+
+  # Used during backups of the CNPG databases. Must be increased on a new
+  # rollout, because CNPG will not backup into an existing target.
+  cluster_revision: "1"
+
+  # Used during restore from backup. Relevant for the CNPG databases.
+  cluster_bootstrap_revision: "1"
+  cluster_bootstrap_revision_vault: "1"
+
+  # TODO: Suspect this is unused
+  cluster_bootstrap_revision_certificates: "1"
+
+  # The main domain of the cluster.
+  #
+  # Make sure tat the DNS resolves to the cluster_ingress_ip.
+  cluster_domain: business-operations.example
+
+  # Cluster Kubernetes API
+  cluster_service_host: "192.0.2.243"
+
+  # IP Addresses used to provide various services
+  coredns_ip: "192.0.2.2"
+  gitlab_ingress_ip: "192.0.2.3"
+  cluster_ingress_ip: "192.0.2.4"
+  unifi_ip: "192.0.2.5"
+  cache_proxy_ip: "192.0.2.6"
+
+  # 16 - 31
+  cilium_pool_cidr: "192.0.2.16/28"
+  # 0 - 15
+  cilium_static_pool_cidr: "192.0.2.0/28"
+
+  # TODO: Backup and restore handling
+  cluster_backup_env: demo
+  cluster_restore_env: demo
+  cluster_restore_certificates_env: demo
+
+  cnpg_backup_base_path: demo-cnpg
+  cnpg_restore_base_path: demo-cnpg
+
+  volsync_cache_storageclass: "ceph-block"
