@@ -10,7 +10,7 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
   inputs.business-operations.url =
-    "github:bo-tech/business-operations";
+    "git+https://codeberg.org/business-operations/business-operations";
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
 

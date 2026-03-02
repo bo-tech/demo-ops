@@ -1,7 +1,7 @@
 # demo-ops
 
 Example deployment showing how to consume
-[business-operations](https://github.com/bo-tech/business-operations).
+[business-operations](https://codeberg.org/business-operations/business-operations).
 
 This repository defines a minimal single-node k0s cluster on a QEMU VM,
 covering NixOS deployment and cluster formation up to `fetch_kubeconfig`.
@@ -39,7 +39,7 @@ in here and in the corresponding inventory file.
 Enter the ansible shell from business-operations:
 
 ```sh
-nix develop github:bo-tech/business-operations#ansible
+nix develop git+https://codeberg.org/business-operations/business-operations#ansible
 ```
 
 Deploy NixOS and bootstrap the cluster (from the `ansible/` directory):

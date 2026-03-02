@@ -2,7 +2,7 @@
   description = "demo-ops documentation build using sphinx-builder";
 
   inputs = {
-    sphinx-builder.url = "github:bo-tech/sphinx-builder";
+    sphinx-builder.url = "git+https://codeberg.org/johbo/sphinx-builder";
     nixpkgs.follows = "sphinx-builder/nixpkgs";
     flake-utils.follows = "sphinx-builder/flake-utils";
   };
