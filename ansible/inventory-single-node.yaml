@@ -18,6 +18,7 @@ all:
   vars:
     ansible_user: root
     artifacts_dir: "{{ inventory_dir }}/artifacts/demo-single-node"
+    cluster_path: "{{ inventory_dir }}/../kubernetes/cluster-demo"
     nixos_flake: "{{ inventory_dir }}/.."
     cilium_helmrelease_path: "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/helmrelease.yaml"
     cilium_values_files:
