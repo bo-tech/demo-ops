@@ -34,6 +34,9 @@ ansible inventory file in `ansible/`.
 
 For headless VMs, set `serialConsole = true` in the host config.
 
+Note: If you add new files, make sure to add them to git, otherwise they will be
+missing from the flake.
+
 
 ## Deployment
 
