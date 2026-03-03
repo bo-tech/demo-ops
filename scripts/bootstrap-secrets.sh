@@ -17,6 +17,14 @@ GITEA_TEMPLATE="$CLUSTER_DIR/bootstrap/gitea/secret-bootstrap.template.yaml"
 CLUSTER_SETTINGS_TEMPLATE="$CLUSTER_DIR/flux/vars/secret-cluster-settings.template.yaml"
 
 main() {
+    case "${1:-}" in
+        --regenerate-secrets) regenerate ;;
+        "") bootstrap ;;
+        *) echo "Usage: $0 [--regenerate-secrets]" >&2; exit 1 ;;
+    esac
+}
+
+bootstrap() {
     check_prerequisites
     check_not_bootstrapped
     generate_age_keys
@@ -24,6 +32,34 @@ main() {
     generate_secrets
     encrypt_secrets
     print_summary
+}
+
+regenerate() {
+    check_prerequisites
+    check_bootstrapped
+    read_existing_keys
+    generate_secrets
+    encrypt_secrets
+    echo "Secrets regenerated and encrypted"
+}
+
+check_bootstrapped() {
+    local missing=()
+    [[ -f "$CLUSTER_KEY" ]] || missing+=("$CLUSTER_KEY")
+    [[ -f "$USER_KEY" ]] || missing+=("$USER_KEY")
+    [[ -f "$SOPS_CONFIG" ]] || missing+=("$SOPS_CONFIG")
+
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        echo "ERROR: Not yet bootstrapped. Missing:" >&2
+        printf '  %s\n' "${missing[@]}" >&2
+        echo "Run $0 first (without flags) to bootstrap." >&2
+        exit 1
+    fi
+}
+
+read_existing_keys() {
+    CLUSTER_PUB=$(grep -o 'age1.*' "$CLUSTER_KEY" | head -1)
+    USER_PUB=$(grep -o 'age1.*' "$USER_KEY" | head -1)
 }
 
 check_prerequisites() {
@@ -127,4 +163,4 @@ Next steps:
 SUMMARY
 }
 
-main
+main "$@"
