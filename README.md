@@ -26,6 +26,12 @@ git clone --recurse-submodules \
   https://codeberg.org/business-operations/demo-ops.git
 ```
 
+Create a working branch for your customizations:
+
+```sh
+cd demo-ops
+git checkout -b my-deployment
+```
 
 ## Configuration
 
@@ -37,6 +43,13 @@ For headless VMs, set `serialConsole = true` in the host config.
 
 Note: If you add new files, make sure to add them to git, otherwise they will be
 missing from the flake.
+
+Commit the configuration changes:
+
+```sh
+git add nixos/hosts/ ansible/
+git commit -m "Configure host for my environment"
+```
 
 
 ## Secrets
