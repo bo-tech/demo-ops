@@ -106,6 +106,12 @@ For aarch64 VMs use the `-aarch64` inventory and flake config
 variants (e.g. `demo-single-node-aarch64`).
 
 
+## Result
+
+You should have a cluster up and running, and a FluxCD setup in there without
+anything being yet installed.
+
+
 ## Useful Commands
 
 Build the system closure:
