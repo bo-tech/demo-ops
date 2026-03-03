@@ -37,9 +37,9 @@ def repo_dir(tmp_path):
 def run_bootstrap(repo_dir):
     """Return a callable that runs the bootstrap script in the repo dir."""
 
-    def _run(*, env=None):
+    def _run(*args, env=None):
         return subprocess.run(
-            [str(repo_dir / "scripts" / "bootstrap-secrets.sh")],
+            [str(repo_dir / "scripts" / "bootstrap-secrets.sh"), *args],
             cwd=repo_dir,
             capture_output=True,
             text=True,
