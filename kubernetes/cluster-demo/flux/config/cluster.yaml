@@ -24,7 +24,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  path: ./kubernetes/cluster-0/flux
+  path: ./kubernetes/${cluster_name}/flux
   prune: true
   wait: false
   sourceRef:
