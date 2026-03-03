@@ -11,10 +11,12 @@ CLUSTER_DIR="$REPO_ROOT/kubernetes/cluster-demo"
 AGE_KEY_SECRET="$CLUSTER_DIR/bootstrap/age-key.sops.yaml"
 GITEA_SECRET="$CLUSTER_DIR/bootstrap/gitea/secret-bootstrap.sops.yaml"
 CLUSTER_SETTINGS_SECRET="$CLUSTER_DIR/flux/vars/secret-cluster-settings.sops.yaml"
+WEBHOOK_TOKEN_SECRET="$CLUSTER_DIR/secrets/webhook-token.sops.yaml"
 
 AGE_KEY_TEMPLATE="$CLUSTER_DIR/bootstrap/age-key.template.yaml"
 GITEA_TEMPLATE="$CLUSTER_DIR/bootstrap/gitea/secret-bootstrap.template.yaml"
 CLUSTER_SETTINGS_TEMPLATE="$CLUSTER_DIR/flux/vars/secret-cluster-settings.template.yaml"
+WEBHOOK_TOKEN_TEMPLATE="$CLUSTER_DIR/secrets/webhook-token.template.yaml"
 
 main() {
     case "${1:-}" in
@@ -136,9 +138,15 @@ generate_secrets() {
     export CNPG_BACKUP_ENDPOINT="CHANGE-ME"
     export CNPG_RESTORE_ENDPOINT="CHANGE-ME"
 
+    export WEBHOOK_TOKEN
+    WEBHOOK_TOKEN=$(openssl rand -hex 32)
+    export WEBHOOK_TOKEN_PATH
+    WEBHOOK_TOKEN_PATH=$(openssl rand -hex 32)
+
     envsubst < "$AGE_KEY_TEMPLATE" > "$AGE_KEY_SECRET"
     envsubst < "$GITEA_TEMPLATE" > "$GITEA_SECRET"
     envsubst < "$CLUSTER_SETTINGS_TEMPLATE" > "$CLUSTER_SETTINGS_SECRET"
+    envsubst < "$WEBHOOK_TOKEN_TEMPLATE" > "$WEBHOOK_TOKEN_SECRET"
 
     echo "Generated secret files from templates"
 }
@@ -148,6 +156,7 @@ encrypt_secrets() {
     sops -e -i "$AGE_KEY_SECRET"
     sops -e -i "$GITEA_SECRET"
     sops -e -i "$CLUSTER_SETTINGS_SECRET"
+    sops -e -i "$WEBHOOK_TOKEN_SECRET"
     echo "Encrypted all secret files"
 }
 
@@ -166,6 +175,7 @@ Encrypted secrets:
   $AGE_KEY_SECRET
   $GITEA_SECRET
   $CLUSTER_SETTINGS_SECRET
+  $WEBHOOK_TOKEN_SECRET
 
 Next steps:
   1. Keep .secrets/ safe — it is gitignored but not backed up
