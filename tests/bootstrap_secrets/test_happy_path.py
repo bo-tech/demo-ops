@@ -76,6 +76,22 @@ def test_reuses_existing_keys_when_secrets_missing(bootstrapped_repo, run_bootst
         assert (bootstrapped_repo.path / secret_file).exists()
 
 
+def test_reuses_existing_keys_when_sops_config_also_missing(bootstrapped_repo, run_bootstrap):
+    original_cluster = bootstrapped_repo.cluster_key.read_text()
+    original_user = bootstrapped_repo.user_key.read_text()
+
+    (bootstrapped_repo.path / ".sops.yaml").unlink()
+    for secret_file in ENCRYPTED_SECRET_FILES:
+        (bootstrapped_repo.path / secret_file).unlink()
+
+    result = run_bootstrap()
+
+    assert result.returncode == 0
+    assert bootstrapped_repo.cluster_key.read_text() == original_cluster
+    assert bootstrapped_repo.user_key.read_text() == original_user
+    assert (bootstrapped_repo.path / ".sops.yaml").exists()
+
+
 def test_prints_summary(repo_dir, run_bootstrap):
     result = run_bootstrap()
 
