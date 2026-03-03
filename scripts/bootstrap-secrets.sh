@@ -26,12 +26,23 @@ main() {
 
 bootstrap() {
     check_prerequisites
-    check_not_bootstrapped
-    generate_age_keys
-    write_sops_config
-    generate_secrets
-    encrypt_secrets
-    print_summary
+    if keys_exist; then
+        read_existing_keys
+        generate_secrets
+        encrypt_secrets
+        echo "Reused existing keys, generated and encrypted secrets"
+    else
+        check_not_bootstrapped
+        generate_age_keys
+        write_sops_config
+        generate_secrets
+        encrypt_secrets
+        print_summary
+    fi
+}
+
+keys_exist() {
+    [[ -f "$CLUSTER_KEY" && -f "$USER_KEY" && -f "$SOPS_CONFIG" ]]
 }
 
 regenerate() {
