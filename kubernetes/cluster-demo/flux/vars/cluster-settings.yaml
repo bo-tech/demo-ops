@@ -56,3 +56,6 @@ data:
   cnpg_restore_base_path: demo-cnpg
 
   volsync_cache_storageclass: "ceph-block"
+
+  # TODO: Needs follow up to remove the dependency on internal systems
+  use_gitlab_system: "stub-registry.example"
