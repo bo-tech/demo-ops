@@ -56,7 +56,12 @@ Then export the path to the age key, so that `sops` uses it:
 export SOPS_AGE_KEY_FILE="${PWD}/.secrets/age-user.key"
 ```
 
-Make sure to add the `*.sops.yaml` files into the git repository.
+Make sure to add the `*.sops.yaml` files into the git repository:
+
+```sh
+git add .sops.yaml kubernetes
+git commit -m "Add generated secrets"
+```
 
 
 ## Deployment
