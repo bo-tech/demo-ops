@@ -15,6 +15,7 @@ This is an early example. Application layers are not yet included.
 ## Prerequisites
 
 - [Nix](https://nixos.org/) with flakes enabled
+- `age-keygen` and `sops` available
 - A machine reachable via SSH (bare-metal, cloud VM, or local QEMU/UTM VM)
 - Ideally the machine can claim multiple ip addresses
 
@@ -36,6 +37,26 @@ For headless VMs, set `serialConsole = true` in the host config.
 
 Note: If you add new files, make sure to add them to git, otherwise they will be
 missing from the flake.
+
+
+## Secrets
+
+Generate age keypairs, SOPS config, and encrypted secret files:
+
+```sh
+./scripts/bootstrap-secrets.sh
+```
+
+This creates `.secrets/` (gitignored) with two age keys, writes `.sops.yaml`,
+and encrypts all secret templates under `kubernetes/cluster-demo/`.
+
+Then export the path to the age key, so that `sops` uses it:
+
+```sh
+export SOPS_AGE_KEY_FILE="${PWD}/.secrets/age-user.key"
+```
+
+Make sure to add the `*.sops.yaml` files into the git repository.
 
 
 ## Deployment
