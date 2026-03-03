@@ -28,6 +28,7 @@ bootstrap() {
     check_prerequisites
     if keys_exist; then
         read_existing_keys
+        write_sops_config
         generate_secrets
         encrypt_secrets
         echo "Reused existing keys, generated and encrypted secrets"
@@ -42,7 +43,7 @@ bootstrap() {
 }
 
 keys_exist() {
-    [[ -f "$CLUSTER_KEY" && -f "$USER_KEY" && -f "$SOPS_CONFIG" ]]
+    [[ -f "$CLUSTER_KEY" && -f "$USER_KEY" ]]
 }
 
 regenerate() {
