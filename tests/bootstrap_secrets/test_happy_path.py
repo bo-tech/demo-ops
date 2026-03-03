@@ -65,6 +65,24 @@ def test_gitea_secret_has_random_password(bootstrapped_repo):
     assert len(password) > 20
 
 
+def test_reuses_existing_keys_when_secrets_missing(bootstrapped_repo, run_bootstrap):
+    cluster_key = bootstrapped_repo / ".secrets" / "age-cluster.key"
+    user_key = bootstrapped_repo / ".secrets" / "age-user.key"
+    original_cluster = cluster_key.read_text()
+    original_user = user_key.read_text()
+
+    for secret_file in ENCRYPTED_SECRET_FILES:
+        (bootstrapped_repo / secret_file).unlink()
+
+    result = run_bootstrap()
+
+    assert result.returncode == 0
+    assert cluster_key.read_text() == original_cluster
+    assert user_key.read_text() == original_user
+    for secret_file in ENCRYPTED_SECRET_FILES:
+        assert (bootstrapped_repo / secret_file).exists()
+
+
 def test_prints_summary(repo_dir, run_bootstrap):
     result = run_bootstrap()
 
