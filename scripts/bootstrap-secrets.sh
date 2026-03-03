@@ -81,7 +81,7 @@ generate_secrets() {
     CLUSTER_AGE_KEY=$(grep -v '^#' "$CLUSTER_KEY" | tr -d '\n')
 
     export GITEA_PASSWORD
-    GITEA_PASSWORD=$(openssl rand -base64 32)
+    GITEA_PASSWORD=$(openssl rand -hex 32)
 
     export CERT_MANAGER_AWS_ACCESS_KEY_ID="CHANGE-ME"
     export CERT_MANAGER_AWS_HOSTED_ZONE_ID="CHANGE-ME"
