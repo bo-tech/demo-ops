@@ -12,17 +12,14 @@ ENCRYPTED_SECRET_FILES = [
 
 
 def test_generates_age_keys(bootstrapped_repo):
-    cluster_key = bootstrapped_repo / ".secrets" / "age-cluster.key"
-    user_key = bootstrapped_repo / ".secrets" / "age-user.key"
-
-    assert cluster_key.exists()
-    assert user_key.exists()
-    assert "AGE-SECRET-KEY-" in cluster_key.read_text()
-    assert "AGE-SECRET-KEY-" in user_key.read_text()
+    assert bootstrapped_repo.cluster_key.exists()
+    assert bootstrapped_repo.user_key.exists()
+    assert "AGE-SECRET-KEY-" in bootstrapped_repo.cluster_key.read_text()
+    assert "AGE-SECRET-KEY-" in bootstrapped_repo.user_key.read_text()
 
 
 def test_creates_sops_config(bootstrapped_repo):
-    sops_config = bootstrapped_repo / ".sops.yaml"
+    sops_config = bootstrapped_repo.path / ".sops.yaml"
     assert sops_config.exists()
 
     content = YAML().load(sops_config.read_text())
@@ -32,7 +29,7 @@ def test_creates_sops_config(bootstrapped_repo):
 
 @pytest.mark.parametrize("secret_file", ENCRYPTED_SECRET_FILES)
 def test_encrypts_secret_files(bootstrapped_repo, secret_file):
-    path = bootstrapped_repo / secret_file
+    path = bootstrapped_repo.path / secret_file
     assert path.exists()
     content = path.read_text()
     assert "sops:" in content
@@ -40,13 +37,12 @@ def test_encrypts_secret_files(bootstrapped_repo, secret_file):
 
 
 def test_age_key_secret_contains_cluster_key(bootstrapped_repo):
-    user_key = bootstrapped_repo / ".secrets" / "age-user.key"
     decrypted = decrypt_sops_file(
-        bootstrapped_repo / "kubernetes/cluster-demo/bootstrap/age-key.sops.yaml",
-        user_key,
+        bootstrapped_repo.path / "kubernetes/cluster-demo/bootstrap/age-key.sops.yaml",
+        bootstrapped_repo.user_key,
     )
 
-    cluster_key_content = (bootstrapped_repo / ".secrets" / "age-cluster.key").read_text()
+    cluster_key_content = bootstrapped_repo.cluster_key.read_text()
     private_key = [
         line for line in cluster_key_content.splitlines() if not line.startswith("#")
     ][0]
@@ -54,10 +50,9 @@ def test_age_key_secret_contains_cluster_key(bootstrapped_repo):
 
 
 def test_gitea_secret_has_random_password(bootstrapped_repo):
-    user_key = bootstrapped_repo / ".secrets" / "age-user.key"
     decrypted = decrypt_sops_file(
-        bootstrapped_repo / "kubernetes/cluster-demo/bootstrap/gitea/secret-bootstrap.sops.yaml",
-        user_key,
+        bootstrapped_repo.path / "kubernetes/cluster-demo/bootstrap/gitea/secret-bootstrap.sops.yaml",
+        bootstrapped_repo.user_key,
     )
 
     password = decrypted["stringData"]["password"]
@@ -66,21 +61,19 @@ def test_gitea_secret_has_random_password(bootstrapped_repo):
 
 
 def test_reuses_existing_keys_when_secrets_missing(bootstrapped_repo, run_bootstrap):
-    cluster_key = bootstrapped_repo / ".secrets" / "age-cluster.key"
-    user_key = bootstrapped_repo / ".secrets" / "age-user.key"
-    original_cluster = cluster_key.read_text()
-    original_user = user_key.read_text()
+    original_cluster = bootstrapped_repo.cluster_key.read_text()
+    original_user = bootstrapped_repo.user_key.read_text()
 
     for secret_file in ENCRYPTED_SECRET_FILES:
-        (bootstrapped_repo / secret_file).unlink()
+        (bootstrapped_repo.path / secret_file).unlink()
 
     result = run_bootstrap()
 
     assert result.returncode == 0
-    assert cluster_key.read_text() == original_cluster
-    assert user_key.read_text() == original_user
+    assert bootstrapped_repo.cluster_key.read_text() == original_cluster
+    assert bootstrapped_repo.user_key.read_text() == original_user
     for secret_file in ENCRYPTED_SECRET_FILES:
-        assert (bootstrapped_repo / secret_file).exists()
+        assert (bootstrapped_repo.path / secret_file).exists()
 
 
 def test_prints_summary(repo_dir, run_bootstrap):

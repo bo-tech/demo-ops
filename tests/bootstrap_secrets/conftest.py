@@ -1,5 +1,6 @@
 import shutil
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path
 
 import pytest
@@ -49,8 +50,19 @@ def run_bootstrap(repo_dir):
     return _run
 
 
+@dataclass
+class BootstrappedRepo:
+    path: Path
+    cluster_key: Path
+    user_key: Path
+
+
 @pytest.fixture()
 def bootstrapped_repo(repo_dir, run_bootstrap):
-    """Run the bootstrap script and return the repo dir."""
+    """Run the bootstrap script and return repo with key paths."""
     run_bootstrap()
-    return repo_dir
+    return BootstrappedRepo(
+        path=repo_dir,
+        cluster_key=repo_dir / ".secrets" / "age-cluster.key",
+        user_key=repo_dir / ".secrets" / "age-user.key",
+    )
