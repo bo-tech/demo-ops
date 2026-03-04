@@ -4,7 +4,8 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.k0s-nix.url = "github:johbo/k0s-nix";
+  # TODO: Switch back to main after merging expose-unitname
+  inputs.k0s-nix.url = "github:johbo/k0s-nix/expose-unitname";
   inputs.k0s-nix.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
