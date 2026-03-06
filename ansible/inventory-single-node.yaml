@@ -35,3 +35,4 @@ all:
     rook_ceph_cluster_values_files:
       - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values.yaml"
       - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values-no-dashboards.yaml"
+      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster-single-node/values.yaml"
