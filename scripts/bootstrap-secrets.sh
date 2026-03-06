@@ -145,7 +145,8 @@ generate_secrets() {
     export WEBHOOK_TOKEN
     WEBHOOK_TOKEN=$(openssl rand -hex 32)
     export WEBHOOK_TOKEN_PATH
-    WEBHOOK_TOKEN_PATH=$(openssl rand -hex 32)
+    WEBHOOK_TOKEN_PATH=$(echo -n "flux-bootstrap/gitea-receiver" \
+        | openssl dgst -sha256 -hmac "$WEBHOOK_TOKEN" | awk '{print $NF}')
 
     export LLDAP_USER_DN="uid=admin,ou=people,dc=lab,dc=bo-tech,dc=de"
     export LLDAP_PASSWORD
