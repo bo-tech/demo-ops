@@ -12,11 +12,15 @@ AGE_KEY_SECRET="$CLUSTER_DIR/bootstrap/age-key.sops.yaml"
 GITEA_SECRET="$CLUSTER_DIR/bootstrap/gitea/secret-bootstrap.sops.yaml"
 CLUSTER_SETTINGS_SECRET="$CLUSTER_DIR/flux/vars/secret-cluster-settings.sops.yaml"
 WEBHOOK_TOKEN_SECRET="$CLUSTER_DIR/secrets/webhook-token.sops.yaml"
+AUTHELIA_SECRET="$CLUSTER_DIR/apps/security/authelia/app/authelia-secret.sops.yaml"
+LLDAP_SECRET="$CLUSTER_DIR/apps/security/lldap/app/lldap-secret.sops.yaml"
 
 AGE_KEY_TEMPLATE="$CLUSTER_DIR/bootstrap/age-key.template.yaml"
 GITEA_TEMPLATE="$CLUSTER_DIR/bootstrap/gitea/secret-bootstrap.template.yaml"
 CLUSTER_SETTINGS_TEMPLATE="$CLUSTER_DIR/flux/vars/secret-cluster-settings.template.yaml"
 WEBHOOK_TOKEN_TEMPLATE="$CLUSTER_DIR/secrets/webhook-token.template.yaml"
+AUTHELIA_TEMPLATE="$CLUSTER_DIR/apps/security/authelia/app/authelia-secret.template.yaml"
+LLDAP_TEMPLATE="$CLUSTER_DIR/apps/security/lldap/app/lldap-secret.template.yaml"
 
 main() {
     case "${1:-}" in
@@ -143,10 +147,26 @@ generate_secrets() {
     export WEBHOOK_TOKEN_PATH
     WEBHOOK_TOKEN_PATH=$(openssl rand -hex 32)
 
+    export LLDAP_USER_DN="uid=admin,ou=people,dc=lab,dc=bo-tech,dc=de"
+    export LLDAP_PASSWORD
+    LLDAP_PASSWORD=$(openssl rand -hex 32)
+    export LLDAP_JWT_SECRET
+    LLDAP_JWT_SECRET=$(openssl rand -hex 32)
+    export LLDAP_SERVER_KEY_SEED
+    LLDAP_SERVER_KEY_SEED=$(openssl rand -hex 32)
+    export AUTHELIA_JWT_SECRET
+    AUTHELIA_JWT_SECRET=$(openssl rand -hex 32)
+    export AUTHELIA_SESSION_SECRET
+    AUTHELIA_SESSION_SECRET=$(openssl rand -hex 32)
+    export AUTHELIA_STORAGE_ENCRYPTION_KEY
+    AUTHELIA_STORAGE_ENCRYPTION_KEY=$(openssl rand -hex 32)
+
     envsubst < "$AGE_KEY_TEMPLATE" > "$AGE_KEY_SECRET"
     envsubst < "$GITEA_TEMPLATE" > "$GITEA_SECRET"
     envsubst < "$CLUSTER_SETTINGS_TEMPLATE" > "$CLUSTER_SETTINGS_SECRET"
     envsubst < "$WEBHOOK_TOKEN_TEMPLATE" > "$WEBHOOK_TOKEN_SECRET"
+    envsubst < "$AUTHELIA_TEMPLATE" > "$AUTHELIA_SECRET"
+    envsubst < "$LLDAP_TEMPLATE" > "$LLDAP_SECRET"
 
     echo "Generated secret files from templates"
 }
@@ -157,6 +177,8 @@ encrypt_secrets() {
     sops -e -i "$GITEA_SECRET"
     sops -e -i "$CLUSTER_SETTINGS_SECRET"
     sops -e -i "$WEBHOOK_TOKEN_SECRET"
+    sops -e -i "$AUTHELIA_SECRET"
+    sops -e -i "$LLDAP_SECRET"
     echo "Encrypted all secret files"
 }
 

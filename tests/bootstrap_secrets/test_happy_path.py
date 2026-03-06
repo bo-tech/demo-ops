@@ -9,6 +9,8 @@ ENCRYPTED_SECRET_FILES = [
     "kubernetes/cluster-demo/bootstrap/gitea/secret-bootstrap.sops.yaml",
     "kubernetes/cluster-demo/flux/vars/secret-cluster-settings.sops.yaml",
     "kubernetes/cluster-demo/secrets/webhook-token.sops.yaml",
+    "kubernetes/cluster-demo/apps/security/authelia/app/authelia-secret.sops.yaml",
+    "kubernetes/cluster-demo/apps/security/lldap/app/lldap-secret.sops.yaml",
 ]
 
 

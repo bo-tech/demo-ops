@@ -13,6 +13,8 @@ TEMPLATE_FILES = [
     "kubernetes/cluster-demo/bootstrap/gitea/secret-bootstrap.template.yaml",
     "kubernetes/cluster-demo/flux/vars/secret-cluster-settings.template.yaml",
     "kubernetes/cluster-demo/secrets/webhook-token.template.yaml",
+    "kubernetes/cluster-demo/apps/security/authelia/app/authelia-secret.template.yaml",
+    "kubernetes/cluster-demo/apps/security/lldap/app/lldap-secret.template.yaml",
 ]
 
 
