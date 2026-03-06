@@ -13,4 +13,4 @@ patches:
       - op: replace
         path: /spec/path
         value: >-
-          ./external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/overlays/single-node
+          ./external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster-single-node
