@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ../../../external/business-operations/kubernetes/apps/network/echo-server
   - ./cert-manager
+  - ./security
