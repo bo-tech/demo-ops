@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../../external/business-operations/kubernetes/base-apps/rook-ceph
+
+patches:
+  - target:
+      kind: Kustomization
+      group: kustomize.toolkit.fluxcd.io
+      name: rook-ceph-cluster
+    patch: |
+      - op: replace
+        path: /spec/path
+        value: >-
+          ./external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/overlays/single-node

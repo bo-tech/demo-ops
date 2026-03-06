@@ -7,3 +7,4 @@ resources:
   - ../../../external/business-operations/kubernetes/base-apps/kube-system/cilium
   - ../../../external/business-operations/kubernetes/base-apps/network/ns
   - ../../../external/business-operations/kubernetes/base-apps/network/ingress-nginx
+  - ./rook-ceph
