@@ -17,4 +17,5 @@ access_control:
         - "lldap.${cluster_domain}"
       subject:
         - "group:admins"
+        - "user:admin"
       policy: one_factor
