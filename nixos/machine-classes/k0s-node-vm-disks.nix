@@ -16,6 +16,9 @@
               mountpoint = "/boot";
             };
           };
+          data = {
+            size = "20G";
+          };
           root = {
             name = "root";
             size = "100%";
@@ -24,9 +27,6 @@
               format = "ext4";
               mountpoint = "/";
             };
-          };
-          data = {
-            size = "20G";
           };
         };
       };
