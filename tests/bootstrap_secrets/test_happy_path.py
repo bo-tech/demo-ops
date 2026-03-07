@@ -1,5 +1,4 @@
 import hashlib
-import hmac
 
 import pytest
 
@@ -55,7 +54,7 @@ def test_age_key_secret_contains_cluster_key(bootstrapped_repo):
     assert private_key in decrypted["stringData"]["age.agekey"]
 
 
-def test_webhook_token_path_matches_flux_receiver_hmac(bootstrapped_repo):
+def test_webhook_token_path_matches_flux_receiver(bootstrapped_repo):
     decrypted = decrypt_sops_file(
         bootstrapped_repo.path / "kubernetes/cluster-demo/secrets/webhook-token.sops.yaml",
         bootstrapped_repo.user_key,
@@ -65,8 +64,8 @@ def test_webhook_token_path_matches_flux_receiver_hmac(bootstrapped_repo):
     token_path = decrypted["stringData"]["token_path"]
     assert len(token) > 20
 
-    expected_path = hmac.new(
-        token.encode(), b"flux-bootstrap/gitea-receiver", hashlib.sha256,
+    expected_path = hashlib.sha256(
+        (token + "gitea-receiver" + "flux-bootstrap").encode(),
     ).hexdigest()
     assert token_path == expected_path
 
