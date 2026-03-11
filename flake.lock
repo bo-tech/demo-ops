@@ -87,16 +87,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1771962890,
-        "narHash": "sha256-w5z8AjaWRRVkfztdV/8Qkwsc8pOrW5QyiXst7cHG85U=",
+        "lastModified": 1773208167,
+        "narHash": "sha256-htaxmqAHSY2esFKBXXYJgl/NGkvlfzULk5EqctMWGQE=",
         "owner": "johbo",
         "repo": "k0s-nix",
-        "rev": "4bdc2edc05e401bd1766ad64d4092e6e5ccfdf75",
+        "rev": "249e5a57adea9c31142df09e17b27810f8b6daf7",
         "type": "github"
       },
       "original": {
         "owner": "johbo",
-        "ref": "expose-unitname",
+        "ref": "consolidate-unit-name",
         "repo": "k0s-nix",
         "type": "github"
       }
