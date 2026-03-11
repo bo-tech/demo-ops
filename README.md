@@ -3,6 +3,9 @@
 Example deployment showing how to consume
 [business-operations](https://codeberg.org/business-operations/business-operations).
 
+- Documentation: <https://business-operations.codeberg.page/demo-ops/>
+- Source code: <https://codeberg.org/business-operations/demo-ops>
+
 This repository defines a minimal single-node k0s cluster, covering
 NixOS deployment and cluster bootstrap with Cilium and OpenEBS.
 

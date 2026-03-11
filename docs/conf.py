@@ -46,4 +46,9 @@ latex_documents = [
 ]
 
 
-intersphinx_mapping = {}
+intersphinx_mapping = {
+    'bo': (
+        'https://business-operations.codeberg.page/business-operations/',
+        None,
+    ),
+}
