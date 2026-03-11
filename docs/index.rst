@@ -7,6 +7,7 @@ demo-ops
    :caption: Contents
 
    run-qemu-vm
+   first-login
    decision-log
 
 
