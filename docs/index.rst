@@ -9,6 +9,7 @@ demo-ops
    about
    getting-started
    run-qemu-vm
+   run-microvm
    first-login
    usage
    known-issues

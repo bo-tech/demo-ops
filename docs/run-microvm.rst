@@ -1,0 +1,81 @@
+====================
+ Running a MicroVM
+====================
+
+This guide walks through deploying demo-ops as a microVM on an existing
+NixOS host using `microvm.nix <https://github.com/astro/microvm.nix>`_.
+This is an alternative to the :doc:`QEMU approach <run-qemu-vm>` and
+is useful when you already have a NixOS machine with spare capacity.
+
+
+Prerequisites
+=============
+
+- Nix installed on your workstation
+- A NixOS host prepared for microVMs — see
+  :doc:`bo:kubernetes/microvm` for the required modules and host setup
+
+
+Configuration
+=============
+
+Edit ``nixos/hosts/demo-single-node-microvm.nix``:
+
+- Set the IP address and gateway for your network
+- Set ``network.prefixLength`` if your subnet is not ``/24``
+- Add your SSH public key
+- Adjust the MAC address if needed
+
+Edit ``ansible/inventory-microvm.yaml``:
+
+- Set ``ansible_host`` to match the VM IP
+- Set ``microvm_host`` to the hypervisor's IP
+
+
+Deployment
+==========
+
+Enter the ansible development shell:
+
+.. code-block:: bash
+
+   nix develop ./external/business-operations#ansible
+
+Deploy the microVM to the hypervisor host:
+
+.. code-block:: bash
+
+   ansible-playbook -i ./ansible/inventory-microvm.yaml \
+     $BO_PLAYBOOKS/deploy-microvms.yaml
+
+This builds the NixOS configuration, installs it on the hypervisor,
+creates the volumes, and starts the VM.
+
+Verify SSH access:
+
+.. code-block:: bash
+
+   ssh root@<vm-ip> hostname
+
+Bootstrap the Kubernetes cluster:
+
+.. code-block:: bash
+
+   ansible-playbook -i ./ansible/inventory-microvm.yaml \
+     $BO_PLAYBOOKS/bootstrap-existing-machines.yaml
+
+Kick off FluxCD:
+
+.. code-block:: bash
+
+   ansible-playbook -i ./ansible/inventory-microvm.yaml \
+     $BO_PLAYBOOKS/bootstrap-cluster.yaml
+
+
+Result
+======
+
+You should have a single-node Kubernetes cluster running inside a
+microVM, with Flux managing the applications.
+
+See :doc:`first-login` for accessing the deployed applications.

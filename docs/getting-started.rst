@@ -14,6 +14,8 @@ Prerequisites
 - Ideally the machine can claim multiple IP addresses
 
 For running a local QEMU VM, see :doc:`run-qemu-vm`.
+For deploying as a microVM on an existing NixOS host, see
+:doc:`run-microvm`.
 
 
 Clone the repository
