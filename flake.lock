@@ -7,11 +7,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1772608869,
-        "narHash": "sha256-96SGYeV0/VViKrRhz5ssmLoM/R8V/SaLoEQLTPcOkrM=",
+        "lastModified": 1773294750,
+        "narHash": "sha256-/AMdyOzZD6A3BZ6xpc/cy+SRjBaPg5iQvsdX63TELy8=",
         "ref": "refs/heads/main",
-        "rev": "b94271e2ca168320bafe8493de7d9062fb9c2d3a",
-        "revCount": 127,
+        "rev": "3399318fa2809e1635c60162addc51e86a76873c",
+        "revCount": 161,
         "type": "git",
         "url": "https://codeberg.org/business-operations/business-operations"
       },
@@ -66,16 +66,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1771962890,
-        "narHash": "sha256-w5z8AjaWRRVkfztdV/8Qkwsc8pOrW5QyiXst7cHG85U=",
+        "lastModified": 1773208167,
+        "narHash": "sha256-htaxmqAHSY2esFKBXXYJgl/NGkvlfzULk5EqctMWGQE=",
         "owner": "johbo",
         "repo": "k0s-nix",
-        "rev": "4bdc2edc05e401bd1766ad64d4092e6e5ccfdf75",
+        "rev": "249e5a57adea9c31142df09e17b27810f8b6daf7",
         "type": "github"
       },
       "original": {
         "owner": "johbo",
-        "ref": "expose-unitname",
+        "ref": "consolidate-unit-name",
         "repo": "k0s-nix",
         "type": "github"
       }
@@ -98,6 +98,27 @@
         "owner": "johbo",
         "ref": "consolidate-unit-name",
         "repo": "k0s-nix",
+        "type": "github"
+      }
+    },
+    "microvm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "spectrum": "spectrum"
+      },
+      "locked": {
+        "lastModified": 1771933107,
+        "narHash": "sha256-Cl6IZoYwYB4Gu1eDgaIfv450O7DKcP+SYCsNbjSiaL8=",
+        "owner": "johbo",
+        "repo": "microvm.nix",
+        "rev": "3370b8e4396abc006711addc1eaedc2c82531bfb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "johbo",
+        "repo": "microvm.nix",
         "type": "github"
       }
     },
@@ -138,7 +159,24 @@
         "business-operations": "business-operations",
         "disko": "disko",
         "k0s-nix": "k0s-nix_2",
+        "microvm": "microvm",
         "nixpkgs": "nixpkgs_2"
+      }
+    },
+    "spectrum": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1759482047,
+        "narHash": "sha256-H1wiXRQHxxPyMMlP39ce3ROKCwI5/tUn36P8x6dFiiQ=",
+        "ref": "refs/heads/main",
+        "rev": "c5d5786d3dc938af0b279c542d1e43bce381b4b9",
+        "revCount": 996,
+        "type": "git",
+        "url": "https://spectrum-os.org/git/spectrum"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://spectrum-os.org/git/spectrum"
       }
     },
     "systems": {

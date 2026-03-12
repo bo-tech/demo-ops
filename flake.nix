@@ -13,11 +13,17 @@
   inputs.business-operations.url =
     "git+https://codeberg.org/business-operations/business-operations";
 
+  # TODO: Switch to upstream once merged:
+  # - Deploy script platform fix: https://github.com/microvm-nix/microvm.nix/pull/475
+  inputs.microvm.url = "github:johbo/microvm.nix";
+  inputs.microvm.inputs.nixpkgs.follows = "nixpkgs";
+
   outputs = {
     self,
     business-operations,
     disko,
     k0s-nix,
+    microvm,
     nixpkgs,
   }: let
     sharedModules = [
@@ -26,6 +32,14 @@
       disko.nixosModules.disko
       k0s-nix.nixosModules.default
       ./nixos/machine-classes/k0s-node-vm-disks.nix
+    ];
+
+    microvmSharedModules = [
+      business-operations.nixosModules.profile-k0s-node
+      business-operations.nixosModules.business-operations
+      business-operations.nixosModules.microvm-guest
+      microvm.nixosModules.microvm
+      k0s-nix.nixosModules.default
     ];
 
     nixpkgs-config-gen = system: {
@@ -50,6 +64,19 @@
           ]
           ++ sharedModules;
       };
+
+    mkMicrovmHost = {
+      hostModule,
+      system ? "x86_64-linux",
+    }:
+      nixpkgs.lib.nixosSystem {
+        modules =
+          [
+            (nixpkgs-config-gen system)
+            hostModule
+          ]
+          ++ microvmSharedModules;
+      };
   in {
     nixosConfigurations = {
       demo-single-node = mkHost {
@@ -68,6 +95,10 @@
       dev-aarch64 = mkHost {
         hostModule = ./nixos/hosts/dev.nix;
         system = "aarch64-linux";
+      };
+
+      demo-single-node-microvm = mkMicrovmHost {
+        hostModule = ./nixos/hosts/demo-single-node-microvm.nix;
       };
     };
   };
