@@ -13,12 +13,12 @@
       {
         mountPoint = "/var";
         image = "var.img";
-        size = 51200;
+        size = 20480;
       }
       {
         mountPoint = null;
         image = "ceph.img";
-        size = 51200;
+        size = 20480;
         autoCreate = false;
       }
     ];
