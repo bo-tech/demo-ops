@@ -3,7 +3,7 @@ date: 2026-01-06
 ---
 
 (adr-0000)=
-# 0000 Use Architecture Decision Records
+# ADR-0000 Use Architecture Decision Records
 
 ## Context and Problem Statement
 
