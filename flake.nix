@@ -7,10 +7,11 @@
   inputs.k0s-nix.url = "github:nix-community/k0s-nix";
   inputs.k0s-nix.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
   inputs.business-operations.url =
     "git+https://codeberg.org/business-operations/business-operations";
+  inputs.business-operations.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.microvm.url = "github:microvm-nix/microvm.nix";
   inputs.microvm.inputs.nixpkgs.follows = "nixpkgs";
