@@ -80,3 +80,17 @@ You should have a single-node Kubernetes cluster running inside a
 microVM, with Flux managing the applications.
 
 See :doc:`first-login` for accessing the deployed applications.
+
+
+Without a cluster
+=================
+
+``dev-microvm`` and ``ansible/inventory-dev-microvm.yaml`` are the same
+setup with the application layer left off. The inventory sets
+``skip_rook_ceph`` and declares no ``cluster_path``, so
+``bootstrap-existing-machines.yaml`` stops once Cilium and OpenEBS are
+in and there is no Flux step to run.
+
+Deploy it exactly as above, substituting the inventory. It is the
+cheaper way to check that a change to the NixOS layer or to the flake
+inputs still produces a machine that boots and joins a cluster.
