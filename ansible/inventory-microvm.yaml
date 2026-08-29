@@ -22,6 +22,8 @@ all:
     cluster_path: "{{ inventory_dir }}/../kubernetes/cluster-demo"
     nixos_flake: "{{ inventory_dir }}/.."
     microvm_activate: restart
+    # Must match the size nixos/profiles/demo-microvm.nix declares
+    microvm_ceph_volume_size: 20480M
     cilium_helmrelease_path: "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/helmrelease.yaml"
     cilium_values_files:
       - "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/values.yaml"
