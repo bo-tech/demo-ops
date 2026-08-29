@@ -1,0 +1,34 @@
+all:
+  hosts:
+    dev-microvm:
+      ansible_host: 192.0.2.21
+      microvm_host: 192.0.2.10
+    # Needed, so that "inventory_dir" is defined
+    localhost:
+      ansible_connection: local
+  children:
+    initial_controller:
+      hosts:
+        dev-microvm:
+    controllers:
+      hosts:
+    workers:
+      hosts:
+    workers_to_join:
+      hosts:
+  vars:
+    ansible_user: root
+    artifacts_dir: "{{ inventory_dir }}/artifacts/dev-microvm"
+    nixos_flake: "{{ inventory_dir }}/.."
+    microvm_activate: restart
+
+    # No cluster_path, so the run stops after cilium and openebs.
+    skip_rook_ceph: true
+
+    cilium_helmrelease_path: "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/helmrelease.yaml"
+    cilium_values_files:
+      - "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/values.yaml"
+      - "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/values-no-dashboards.yaml"
+    openebs_helmrelease_path: "../external/business-operations/kubernetes/base-apps/openebs/openebs/app/helmrelease.yaml"
+    openebs_values_files:
+      - "../external/business-operations/kubernetes/base-apps/openebs/openebs/app/values.yaml"

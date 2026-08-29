@@ -98,6 +98,10 @@
       demo-single-node-microvm = mkMicrovmHost {
         hostModule = ./nixos/hosts/demo-single-node-microvm.nix;
       };
+
+      dev-microvm = mkMicrovmHost {
+        hostModule = ./nixos/hosts/dev-microvm.nix;
+      };
     };
   };
 }
