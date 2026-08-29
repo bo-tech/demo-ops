@@ -11,6 +11,7 @@
 
   inputs.business-operations.url =
     "git+https://codeberg.org/business-operations/business-operations";
+  inputs.business-operations.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.microvm.url = "github:microvm-nix/microvm.nix";
   inputs.microvm.inputs.nixpkgs.follows = "nixpkgs";
