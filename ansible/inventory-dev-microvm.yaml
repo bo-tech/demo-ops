@@ -21,8 +21,6 @@ all:
     artifacts_dir: "{{ inventory_dir }}/artifacts/dev-microvm"
     nixos_flake: "{{ inventory_dir }}/.."
     microvm_activate: restart
-
-    # No cluster_path, so the run stops after cilium and openebs.
     skip_rook_ceph: true
 
     cilium_helmrelease_path: "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/helmrelease.yaml"
