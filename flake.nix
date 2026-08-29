@@ -12,9 +12,7 @@
   inputs.business-operations.url =
     "git+https://codeberg.org/business-operations/business-operations";
 
-  # TODO: Switch to upstream once merged:
-  # - Deploy script platform fix: https://github.com/microvm-nix/microvm.nix/pull/475
-  inputs.microvm.url = "github:johbo/microvm.nix";
+  inputs.microvm.url = "github:microvm-nix/microvm.nix";
   inputs.microvm.inputs.nixpkgs.follows = "nixpkgs";
 
   outputs = {
