@@ -32,6 +32,13 @@ Edit ``ansible/inventory-microvm.yaml``:
 - Set ``ansible_host`` to match the VM IP
 - Set ``microvm_host`` to the hypervisor's IP
 
+The guest attaches to the hypervisor's bridge, so it lands on whatever
+network that host's NIC is on rather than on one of its own. Set the
+load balancer addresses to match, as
+:ref:`sec-getting-started-configuration` describes — the Cilium pools have
+to lie inside the guest's subnet, and it is this path where that subnet
+is most easily not the one you expected.
+
 
 Deployment
 ==========
