@@ -29,7 +29,7 @@ data:
 
   # The main domain of the cluster.
   #
-  # Make sure tat the DNS resolves to the cluster_ingress_ip.
+  # Make sure that the DNS resolves to the cluster_ingress_ip.
   cluster_domain: business-operations.example
 
   # Cluster Kubernetes API
