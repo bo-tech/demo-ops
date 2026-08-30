@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787987662,
-        "narHash": "sha256-OfznsHKhpD+xSStv01uTAxIVajPeU939PK7zgtoD70A=",
+        "lastModified": 1788039183,
+        "narHash": "sha256-UvldBKx2VOyJpl9bXhb1yKe/YswTUEIDGFWrCiwHTb4=",
         "ref": "refs/heads/main",
-        "rev": "96f54497c6f0cbeb4cb97ce3352e4bc42a4ccbc0",
-        "revCount": 258,
+        "rev": "0830359db004f281a70631b753276d28f690ff55",
+        "revCount": 262,
         "type": "git",
         "url": "https://codeberg.org/business-operations/business-operations"
       },
