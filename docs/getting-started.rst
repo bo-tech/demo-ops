@@ -40,8 +40,8 @@ Configuration
 =============
 
 Edit a host config in ``nixos/hosts/`` — set the IP address, gateway,
-network interface, and your SSH public key. Then adjust the matching
-ansible inventory file in ``ansible/``.
+and your SSH public key. Then adjust the matching ansible inventory
+file in ``ansible/``.
 
 For headless VMs, set ``serialConsole = true`` in the host config.
 
