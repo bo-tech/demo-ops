@@ -45,6 +45,17 @@ file in ``ansible/``.
 
 For headless VMs, set ``serialConsole = true`` in the host config.
 
+Then set the load balancer addresses in
+``kubernetes/cluster-demo/flux/vars/cluster-settings.yaml``. The two
+Cilium pools, ``cilium_static_pool_cidr`` and ``cilium_pool_cidr``,
+must lie inside the machine's own subnet, and so must
+``cluster_ingress_ip``, which is handed out from the static pool.
+Cilium announces these addresses by answering ARP on the machine's
+link, and a client only sends an ARP request for an address it
+considers on-link, so a pool outside the subnet is announced to
+nobody. Choose blocks that collide neither with the machine itself nor
+with what the network hands out over DHCP.
+
 .. note::
 
    If you add new files, make sure to add them to git, otherwise they
@@ -54,7 +65,7 @@ Commit the configuration changes:
 
 .. code-block:: bash
 
-   git add nixos/hosts/ ansible/
+   git add nixos/hosts/ ansible/ kubernetes/cluster-demo/flux/vars/
    git commit -m "Configure host for my environment"
 
 
