@@ -90,11 +90,6 @@
         hostModule = ./nixos/hosts/dev.nix;
       };
 
-      dev-aarch64 = mkHost {
-        hostModule = ./nixos/hosts/dev.nix;
-        system = "aarch64-linux";
-      };
-
       demo-single-node-microvm = mkMicrovmHost {
         hostModule = ./nixos/hosts/demo-single-node-microvm.nix;
       };
