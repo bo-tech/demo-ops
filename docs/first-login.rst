@@ -30,8 +30,22 @@ The `admin` username is ``admin``.
 Log into the web UI
 ===================
 
-Open the LLDAP web interface in your browser and log in with the
-`admin` credentials. From there you can manage users and groups.
+LLDAP is served at ``https://lldap.<cluster_domain>``, taking
+``cluster_domain`` from
+``kubernetes/cluster-demo/flux/vars/cluster-settings.yaml``. The
+cluster publishes no DNS, so the name has to resolve to
+``cluster_ingress_ip`` from the workstation you browse from — through
+an entry in its ``/etc/hosts``, or a record in whichever resolver it
+uses:
+
+.. code-block:: text
+
+   192.0.2.4  lldap.business-operations.example
+
+The wildcard certificate comes from the cluster's own self-signed
+issuer, so the browser warns on the first visit. Accept it, then log
+in with the `admin` credentials. From there you can manage users and
+groups.
 
 All other applications are protected by Authelia, which authenticates
 against LLDAP. The same `admin` credentials work for Authelia-protected
