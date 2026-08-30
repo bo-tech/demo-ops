@@ -24,11 +24,3 @@ all:
     skip_rook_ceph: true
     # Must match the size nixos/profiles/demo-microvm.nix declares
     microvm_ceph_volume_size: 20480M
-
-    cilium_helmrelease_path: "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/helmrelease.yaml"
-    cilium_values_files:
-      - "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/values.yaml"
-      - "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/values-no-dashboards.yaml"
-    openebs_helmrelease_path: "../external/business-operations/kubernetes/base-apps/openebs/openebs/app/helmrelease.yaml"
-    openebs_values_files:
-      - "../external/business-operations/kubernetes/base-apps/openebs/openebs/app/values.yaml"

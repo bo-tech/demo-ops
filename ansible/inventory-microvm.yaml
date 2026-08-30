@@ -24,19 +24,7 @@ all:
     microvm_activate: restart
     # Must match the size nixos/profiles/demo-microvm.nix declares
     microvm_ceph_volume_size: 20480M
-    cilium_helmrelease_path: "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/helmrelease.yaml"
-    cilium_values_files:
-      - "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/values.yaml"
-      - "../external/business-operations/kubernetes/base-apps/kube-system/cilium/app/values-no-dashboards.yaml"
-    openebs_helmrelease_path: "../external/business-operations/kubernetes/base-apps/openebs/openebs/app/helmrelease.yaml"
-    openebs_values_files:
-      - "../external/business-operations/kubernetes/base-apps/openebs/openebs/app/values.yaml"
-    rook_ceph_operator_helmrelease_path: "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/operator/helmrelease.yaml"
-    rook_ceph_operator_values_files:
-      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/operator/values.yaml"
-      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/operator/values-no-dashboards.yaml"
-    rook_ceph_cluster_helmrelease_path: "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/helmrelease.yaml"
     rook_ceph_cluster_values_files:
-      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values.yaml"
-      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values-no-dashboards.yaml"
-      - "../external/business-operations/kubernetes/base-apps/rook-ceph/rook-ceph/cluster-single-node/values.yaml"
+      - "{{ business_operations_dir }}/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values.yaml"
+      - "{{ business_operations_dir }}/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values-no-dashboards.yaml"
+      - "{{ business_operations_dir }}/kubernetes/base-apps/rook-ceph/rook-ceph/cluster-single-node/values.yaml"
