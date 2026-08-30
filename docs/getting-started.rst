@@ -36,6 +36,8 @@ Create a working branch for your customizations:
    git checkout -b my-deployment
 
 
+.. _sec-getting-started-configuration:
+
 Configuration
 =============
 
