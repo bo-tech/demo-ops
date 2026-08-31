@@ -4,16 +4,8 @@ import pytest
 
 from ruamel.yaml import YAML
 
+from .conftest import ENCRYPTED_SECRET_FILES
 from .helpers import decrypt_sops_file
-
-ENCRYPTED_SECRET_FILES = [
-    "kubernetes/cluster-demo/bootstrap/age-key.sops.yaml",
-    "kubernetes/cluster-demo/bootstrap/gitea/secret-bootstrap.sops.yaml",
-    "kubernetes/cluster-demo/flux/vars/secret-cluster-settings.sops.yaml",
-    "kubernetes/cluster-demo/secrets/webhook-token.sops.yaml",
-    "kubernetes/cluster-demo/apps/security/authelia/app/authelia-secret.sops.yaml",
-    "kubernetes/cluster-demo/apps/security/lldap/app/lldap-secret.sops.yaml",
-]
 
 
 def test_generates_age_keys(bootstrapped_repo):

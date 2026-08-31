@@ -8,13 +8,13 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = REPO_ROOT / "scripts" / "bootstrap-secrets.sh"
 
-TEMPLATE_FILES = [
-    "kubernetes/cluster-demo/bootstrap/age-key.template.yaml",
-    "kubernetes/cluster-demo/bootstrap/gitea/secret-bootstrap.template.yaml",
-    "kubernetes/cluster-demo/flux/vars/secret-cluster-settings.template.yaml",
-    "kubernetes/cluster-demo/secrets/webhook-token.template.yaml",
-    "kubernetes/cluster-demo/apps/security/authelia/app/authelia-secret.template.yaml",
-    "kubernetes/cluster-demo/apps/security/lldap/app/lldap-secret.template.yaml",
+TEMPLATE_FILES = sorted(
+    str(path.relative_to(REPO_ROOT))
+    for path in REPO_ROOT.glob("kubernetes/cluster-*/**/*.template.yaml")
+)
+
+ENCRYPTED_SECRET_FILES = [
+    template.replace(".template.yaml", ".sops.yaml") for template in TEMPLATE_FILES
 ]
 
 

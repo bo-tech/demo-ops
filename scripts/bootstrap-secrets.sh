@@ -9,6 +9,7 @@ SOPS_CONFIG="$REPO_ROOT/.sops.yaml"
 
 CLUSTER_DIRS=(
     kubernetes/cluster-demo
+    kubernetes/cluster-demo-multi-node
 )
 
 SECRET_NAMES=(
@@ -115,7 +116,7 @@ generate_age_keys() {
 write_sops_config() {
     cat > "$SOPS_CONFIG" <<YAML
 creation_rules:
-  - path_regex: kubernetes/cluster-demo/.*\\.sops\\.ya?ml
+  - path_regex: kubernetes/cluster-.*/.*\\.sops\\.ya?ml
     encrypted_regex: "^(data|stringData)$"
     # Cluster key, User key
     age: >-
