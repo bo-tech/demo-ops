@@ -27,6 +27,7 @@
     sharedModules = [
       business-operations.nixosModules.profile-k0s-node
       business-operations.nixosModules.business-operations
+      business-operations.nixosModules.cache-proxy
       disko.nixosModules.disko
       k0s-nix.nixosModules.default
       ./nixos/machine-classes/k0s-node-vm-disks.nix
@@ -35,6 +36,7 @@
     microvmSharedModules = [
       business-operations.nixosModules.profile-k0s-node
       business-operations.nixosModules.business-operations
+      business-operations.nixosModules.cache-proxy
       business-operations.nixosModules.microvm-guest
       microvm.nixosModules.microvm
       k0s-nix.nixosModules.default
