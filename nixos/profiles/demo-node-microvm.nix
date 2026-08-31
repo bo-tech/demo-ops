@@ -2,11 +2,11 @@
 # to evaluate rather than deploy a stand-in value.
 {
   index,
-  address,
-  gateway,
   mac,
   isLeader,
+  network,
   sshAuthorizedKeys,
+  dev,
 }:
 
 {
@@ -19,8 +19,7 @@
     role = "controller+worker";
     cluster.isLeader = isLeader;
     serialConsole = true;
-    network = { inherit address gateway; };
-    inherit sshAuthorizedKeys;
+    inherit network sshAuthorizedKeys dev;
   };
 
   services.getty.autologinUser = "root";
