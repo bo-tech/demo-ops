@@ -1,3 +1,4 @@
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -14,10 +15,17 @@ INTENDED_DIFFERENCES = {
 
 
 def non_secret_files(cluster_dir):
+    listing = subprocess.run(
+        ["git", "ls-files", "-z", "--", str(cluster_dir)],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
     return {
-        str(path.relative_to(cluster_dir))
-        for path in cluster_dir.rglob("*")
-        if path.is_file() and not path.name.endswith(".sops.yaml")
+        str(Path(name).relative_to(cluster_dir.relative_to(REPO_ROOT)))
+        for name in listing.stdout.split("\0")
+        if name and not name.endswith(".sops.yaml")
     }
 
 
