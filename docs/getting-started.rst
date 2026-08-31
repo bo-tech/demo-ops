@@ -81,8 +81,10 @@ Generate age keypairs, SOPS config, and encrypted secret files:
    ./scripts/bootstrap-secrets.sh
 
 This creates ``.secrets/`` (gitignored) with two age keys, writes
-``.sops.yaml``, and encrypts all secret templates under
-``kubernetes/cluster-demo/``.
+``.sops.yaml``, and encrypts the secret templates of every cluster
+under ``kubernetes/``. Each cluster gets its own credentials.
+Re-running the script leaves a cluster that already has its secrets
+alone, so adding a cluster does not disturb one already deployed.
 
 Then export the path to the age key, so that ``sops`` uses it:
 
