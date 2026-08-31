@@ -73,6 +73,18 @@ def test_gitea_secret_has_random_password(bootstrapped_repo):
     assert len(password) > 20
 
 
+def test_each_cluster_gets_its_own_password(bootstrapped_repo):
+    passwords = {
+        decrypt_sops_file(
+            bootstrapped_repo.path / cluster / "bootstrap/gitea/secret-bootstrap.sops.yaml",
+            bootstrapped_repo.user_key,
+        )["stringData"]["password"]
+        for cluster in ("kubernetes/cluster-demo", "kubernetes/cluster-demo-multi-node")
+    }
+
+    assert len(passwords) == 2
+
+
 def test_reuses_existing_keys_when_secrets_missing(bootstrapped_repo, run_bootstrap):
     original_cluster = bootstrapped_repo.cluster_key.read_text()
     original_user = bootstrapped_repo.user_key.read_text()

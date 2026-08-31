@@ -126,9 +126,9 @@ YAML
     echo "Wrote $SOPS_CONFIG"
 }
 
-# Keeping the secrets already on disk is what stops one cluster's
-# bootstrap from handing another, already deployed, credentials it
-# does not know.
+# Skipping a cluster that already has its secrets is what stops one
+# cluster's bootstrap from handing another, already deployed,
+# credentials it does not know.
 write_secrets() {
     local mode="$1"
     local cluster_dir
@@ -136,24 +136,34 @@ write_secrets() {
     export SOPS_AGE_KEY_FILE="$USER_KEY"
 
     for cluster_dir in "${CLUSTER_DIRS[@]}"; do
+        if [[ "$mode" == missing ]] && cluster_has_all_secrets "$cluster_dir"; then
+            echo "Kept the secrets of $cluster_dir"
+            continue
+        fi
+
         generate_cluster_values
-        write_cluster_secrets "$mode" "$cluster_dir"
+        write_cluster_secrets "$cluster_dir"
     done
 }
 
+cluster_has_all_secrets() {
+    local cluster_dir="$1"
+    local name
+
+    for name in "${SECRET_NAMES[@]}"; do
+        [[ -f "$REPO_ROOT/$cluster_dir/$name.sops.yaml" ]] || return 1
+    done
+}
+
+# A cluster's secrets are written as one set: LLDAP_PASSWORD reaches
+# both lldap-secret and authelia-secret, which Authelia binds with, so
+# renewing one file alone would leave the two disagreeing.
 write_cluster_secrets() {
-    local mode="$1"
-    local cluster_dir="$2"
+    local cluster_dir="$1"
     local name secret
 
     for name in "${SECRET_NAMES[@]}"; do
         secret="$REPO_ROOT/$cluster_dir/$name.sops.yaml"
-
-        if [[ "$mode" == missing && -f "$secret" ]]; then
-            echo "Kept $cluster_dir/$name.sops.yaml"
-            continue
-        fi
-
         envsubst < "$REPO_ROOT/$cluster_dir/$name.template.yaml" > "$secret"
         sops -e -i "$secret"
         echo "Wrote $cluster_dir/$name.sops.yaml"
