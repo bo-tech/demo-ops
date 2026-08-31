@@ -75,8 +75,19 @@
           ]
           ++ microvmSharedModules;
       };
+
+    demoNodes = import ./nixos/hosts/demo-nodes.nix;
+
+    demoNodeConfigurations = nixpkgs.lib.listToAttrs (
+      map (node: {
+        name = "demo-node-${node.index}-microvm";
+        value = mkMicrovmHost {
+          hostModule = import ./nixos/profiles/demo-node-microvm.nix node;
+        };
+      }) demoNodes
+    );
   in {
-    nixosConfigurations = {
+    nixosConfigurations = demoNodeConfigurations // {
       demo-single-node = mkHost {
         hostModule = ./nixos/hosts/demo-single-node.nix;
       };
