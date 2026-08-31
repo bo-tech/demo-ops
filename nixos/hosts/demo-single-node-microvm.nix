@@ -6,7 +6,7 @@ in
 
   networking.hostName = "demo-single-node-microvm";
 
-  custom.business-operations = {
+  business-operations = {
     enable = true;
     role = "single-node";
     serialConsole = true;

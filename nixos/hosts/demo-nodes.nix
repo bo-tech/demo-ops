@@ -8,12 +8,11 @@ let
     # "ssh-ed25519 AAAA... user@host"
   ];
 
-  dev = { };
 
   node =
     { index, mac, isLeader, address }:
     {
-      inherit index mac isLeader sshAuthorizedKeys dev;
+      inherit index mac isLeader sshAuthorizedKeys;
       network = network // { inherit address; };
     };
 in

@@ -7,7 +7,7 @@
 
   networking.hostName = "dev";
 
-  custom.business-operations = {
+  business-operations = {
     enable = true;
     role = "single-node";
     serialConsole = true;

@@ -6,7 +6,6 @@
   isLeader,
   network,
   sshAuthorizedKeys,
-  dev,
 }:
 
 {
@@ -14,12 +13,12 @@
 
   networking.hostName = "demo-node-${index}-microvm";
 
-  custom.business-operations = {
+  business-operations = {
     enable = true;
     role = "controller+worker";
     cluster.isLeader = isLeader;
     serialConsole = true;
-    inherit network sshAuthorizedKeys dev;
+    inherit network sshAuthorizedKeys;
   };
 
   services.getty.autologinUser = "root";
