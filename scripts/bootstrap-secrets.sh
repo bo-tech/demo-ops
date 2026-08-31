@@ -33,15 +33,13 @@ bootstrap() {
     if keys_exist; then
         read_existing_keys
         write_sops_config
-        generate_secrets
-        encrypt_secrets
-        echo "Reused existing keys, generated and encrypted secrets"
+        write_secrets missing
+        echo "Reused existing keys, wrote the secrets that were missing"
     else
         check_not_bootstrapped
         generate_age_keys
         write_sops_config
-        generate_secrets
-        encrypt_secrets
+        write_secrets missing
         print_summary
     fi
 }
@@ -54,8 +52,7 @@ regenerate() {
     check_prerequisites
     check_bootstrapped
     read_existing_keys
-    generate_secrets
-    encrypt_secrets
+    write_secrets all
     echo "Secrets regenerated and encrypted"
 }
 
@@ -128,22 +125,37 @@ YAML
     echo "Wrote $SOPS_CONFIG"
 }
 
-generate_secrets() {
+# Keeping the secrets already on disk is what stops one cluster's
+# bootstrap from handing another, already deployed, credentials it
+# does not know.
+write_secrets() {
+    local mode="$1"
+    local cluster_dir
+
+    export SOPS_AGE_KEY_FILE="$USER_KEY"
+
     for cluster_dir in "${CLUSTER_DIRS[@]}"; do
         generate_cluster_values
-        render_secrets "$cluster_dir"
+        write_cluster_secrets "$mode" "$cluster_dir"
     done
-
-    echo "Generated secret files from templates"
 }
 
-render_secrets() {
-    local cluster_dir="$1"
-    local name
+write_cluster_secrets() {
+    local mode="$1"
+    local cluster_dir="$2"
+    local name secret
 
     for name in "${SECRET_NAMES[@]}"; do
-        envsubst < "$REPO_ROOT/$cluster_dir/$name.template.yaml" \
-            > "$REPO_ROOT/$cluster_dir/$name.sops.yaml"
+        secret="$REPO_ROOT/$cluster_dir/$name.sops.yaml"
+
+        if [[ "$mode" == missing && -f "$secret" ]]; then
+            echo "Kept $cluster_dir/$name.sops.yaml"
+            continue
+        fi
+
+        envsubst < "$REPO_ROOT/$cluster_dir/$name.template.yaml" > "$secret"
+        sops -e -i "$secret"
+        echo "Wrote $cluster_dir/$name.sops.yaml"
     done
 }
 
@@ -179,18 +191,6 @@ generate_cluster_values() {
     AUTHELIA_SESSION_SECRET=$(openssl rand -hex 32)
     export AUTHELIA_STORAGE_ENCRYPTION_KEY
     AUTHELIA_STORAGE_ENCRYPTION_KEY=$(openssl rand -hex 32)
-}
-
-encrypt_secrets() {
-    export SOPS_AGE_KEY_FILE="$USER_KEY"
-
-    for cluster_dir in "${CLUSTER_DIRS[@]}"; do
-        for name in "${SECRET_NAMES[@]}"; do
-            sops -e -i "$REPO_ROOT/$cluster_dir/$name.sops.yaml"
-        done
-    done
-
-    echo "Encrypted all secret files"
 }
 
 print_summary() {
