@@ -15,7 +15,7 @@
       gateway = "192.0.2.1";
     };
     sshAuthorizedKeys = [
-      "ssh-ed25519 AAAA... user@host"
+      # "ssh-ed25519 AAAA... user@host"
     ];
   };
 

@@ -15,8 +15,7 @@ in
       gateway = "192.0.2.1";
     };
     sshAuthorizedKeys = [
-      # Replace with your public key
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExample user@example"
+      # "ssh-ed25519 AAAA... user@host"
     ];
   };
 
