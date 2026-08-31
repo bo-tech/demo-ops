@@ -7,7 +7,7 @@
 
   networking.hostName = "demo-single-node";
 
-  custom.business-operations = {
+  business-operations = {
     enable = true;
     role = "single-node";
     network = {
