@@ -4,16 +4,8 @@ import pytest
 
 from ruamel.yaml import YAML
 
+from .conftest import ENCRYPTED_SECRET_FILES
 from .helpers import decrypt_sops_file
-
-ENCRYPTED_SECRET_FILES = [
-    "kubernetes/cluster-demo/bootstrap/age-key.sops.yaml",
-    "kubernetes/cluster-demo/bootstrap/gitea/secret-bootstrap.sops.yaml",
-    "kubernetes/cluster-demo/flux/vars/secret-cluster-settings.sops.yaml",
-    "kubernetes/cluster-demo/secrets/webhook-token.sops.yaml",
-    "kubernetes/cluster-demo/apps/security/authelia/app/authelia-secret.sops.yaml",
-    "kubernetes/cluster-demo/apps/security/lldap/app/lldap-secret.sops.yaml",
-]
 
 
 def test_generates_age_keys(bootstrapped_repo):
@@ -79,6 +71,18 @@ def test_gitea_secret_has_random_password(bootstrapped_repo):
     password = decrypted["stringData"]["password"]
     assert password not in ("stub-value", "__GITEA_PASSWORD__")
     assert len(password) > 20
+
+
+def test_each_cluster_gets_its_own_password(bootstrapped_repo):
+    passwords = {
+        decrypt_sops_file(
+            bootstrapped_repo.path / cluster / "bootstrap/gitea/secret-bootstrap.sops.yaml",
+            bootstrapped_repo.user_key,
+        )["stringData"]["password"]
+        for cluster in ("kubernetes/cluster-demo", "kubernetes/cluster-demo-multi-node")
+    }
+
+    assert len(passwords) == 2
 
 
 def test_reuses_existing_keys_when_secrets_missing(bootstrapped_repo, run_bootstrap):

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: sops-age
+    namespace: flux-system
+stringData:
+    age.agekey: ${CLUSTER_AGE_KEY}

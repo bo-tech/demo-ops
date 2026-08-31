@@ -27,8 +27,12 @@ all:
   vars:
     ansible_user: root
     artifacts_dir: "{{ inventory_dir }}/artifacts/demo-three-node-microvm"
+    cluster_path: "{{ inventory_dir }}/../kubernetes/cluster-demo-multi-node"
     nixos_flake: "{{ inventory_dir }}/.."
     microvm_activate: restart
-    skip_rook_ceph: true
     # Must match the size nixos/profiles/demo-microvm.nix declares
     microvm_ceph_volume_size: 20480M
+    rook_ceph_cluster_values_files:
+      - "{{ business_operations_dir }}/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values.yaml"
+      - "{{ business_operations_dir }}/kubernetes/base-apps/rook-ceph/rook-ceph/cluster/values-no-dashboards.yaml"
+      - "{{ business_operations_dir }}/kubernetes/base-apps/rook-ceph/rook-ceph/cluster-microvm/values.yaml"

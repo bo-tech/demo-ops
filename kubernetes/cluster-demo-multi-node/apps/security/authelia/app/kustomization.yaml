@@ -1,0 +1,22 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: security
+
+resources:
+  - ../../../../../../external/business-operations/kubernetes/apps/security/authelia/app/helmrelease.yaml
+  - ../../../../../../external/business-operations/kubernetes/apps/security/authelia/app/ingress-headers-configmap.yaml
+  - ./authelia-secret.sops.yaml
+
+commonLabels:
+  app.kubernetes.io/name: authelia
+  app.kubernetes.io/instance: authelia
+
+configMapGenerator:
+  - name: authelia-configmap
+    files:
+      - configuration.yaml=../../../../../../external/business-operations/kubernetes/apps/security/authelia/app/config/configuration.yaml
+      - access-control.yaml=./access-control.yaml
+
+configurations:
+  - ../../../../../../external/business-operations/kubernetes/apps/security/authelia/app/name-reference.yaml

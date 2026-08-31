@@ -7,20 +7,19 @@ CLUSTER_KEY="$SECRETS_DIR/age-cluster.key"
 USER_KEY="$SECRETS_DIR/age-user.key"
 SOPS_CONFIG="$REPO_ROOT/.sops.yaml"
 
-CLUSTER_DIR="$REPO_ROOT/kubernetes/cluster-demo"
-AGE_KEY_SECRET="$CLUSTER_DIR/bootstrap/age-key.sops.yaml"
-GITEA_SECRET="$CLUSTER_DIR/bootstrap/gitea/secret-bootstrap.sops.yaml"
-CLUSTER_SETTINGS_SECRET="$CLUSTER_DIR/flux/vars/secret-cluster-settings.sops.yaml"
-WEBHOOK_TOKEN_SECRET="$CLUSTER_DIR/secrets/webhook-token.sops.yaml"
-AUTHELIA_SECRET="$CLUSTER_DIR/apps/security/authelia/app/authelia-secret.sops.yaml"
-LLDAP_SECRET="$CLUSTER_DIR/apps/security/lldap/app/lldap-secret.sops.yaml"
+CLUSTER_DIRS=(
+    kubernetes/cluster-demo
+    kubernetes/cluster-demo-multi-node
+)
 
-AGE_KEY_TEMPLATE="$CLUSTER_DIR/bootstrap/age-key.template.yaml"
-GITEA_TEMPLATE="$CLUSTER_DIR/bootstrap/gitea/secret-bootstrap.template.yaml"
-CLUSTER_SETTINGS_TEMPLATE="$CLUSTER_DIR/flux/vars/secret-cluster-settings.template.yaml"
-WEBHOOK_TOKEN_TEMPLATE="$CLUSTER_DIR/secrets/webhook-token.template.yaml"
-AUTHELIA_TEMPLATE="$CLUSTER_DIR/apps/security/authelia/app/authelia-secret.template.yaml"
-LLDAP_TEMPLATE="$CLUSTER_DIR/apps/security/lldap/app/lldap-secret.template.yaml"
+SECRET_NAMES=(
+    bootstrap/age-key
+    bootstrap/gitea/secret-bootstrap
+    flux/vars/secret-cluster-settings
+    secrets/webhook-token
+    apps/security/authelia/app/authelia-secret
+    apps/security/lldap/app/lldap-secret
+)
 
 main() {
     case "${1:-}" in
@@ -35,15 +34,13 @@ bootstrap() {
     if keys_exist; then
         read_existing_keys
         write_sops_config
-        generate_secrets
-        encrypt_secrets
-        echo "Reused existing keys, generated and encrypted secrets"
+        write_secrets missing
+        echo "Reused existing keys, wrote the secrets that were missing"
     else
         check_not_bootstrapped
         generate_age_keys
         write_sops_config
-        generate_secrets
-        encrypt_secrets
+        write_secrets missing
         print_summary
     fi
 }
@@ -56,8 +53,7 @@ regenerate() {
     check_prerequisites
     check_bootstrapped
     read_existing_keys
-    generate_secrets
-    encrypt_secrets
+    write_secrets all
     echo "Secrets regenerated and encrypted"
 }
 
@@ -120,7 +116,7 @@ generate_age_keys() {
 write_sops_config() {
     cat > "$SOPS_CONFIG" <<YAML
 creation_rules:
-  - path_regex: kubernetes/cluster-demo/.*\\.sops\\.ya?ml
+  - path_regex: kubernetes/cluster-.*/.*\\.sops\\.ya?ml
     encrypted_regex: "^(data|stringData)$"
     # Cluster key, User key
     age: >-
@@ -130,7 +126,52 @@ YAML
     echo "Wrote $SOPS_CONFIG"
 }
 
-generate_secrets() {
+# Skipping a cluster that already has its secrets is what stops one
+# cluster's bootstrap from handing another, already deployed,
+# credentials it does not know.
+write_secrets() {
+    local mode="$1"
+    local cluster_dir
+
+    export SOPS_AGE_KEY_FILE="$USER_KEY"
+
+    for cluster_dir in "${CLUSTER_DIRS[@]}"; do
+        if [[ "$mode" == missing ]] && cluster_has_all_secrets "$cluster_dir"; then
+            echo "Kept the secrets of $cluster_dir"
+            continue
+        fi
+
+        generate_cluster_values
+        write_cluster_secrets "$cluster_dir"
+    done
+}
+
+cluster_has_all_secrets() {
+    local cluster_dir="$1"
+    local name
+
+    for name in "${SECRET_NAMES[@]}"; do
+        [[ -f "$REPO_ROOT/$cluster_dir/$name.sops.yaml" ]] || return 1
+    done
+}
+
+# A cluster's secrets are written as one set: LLDAP_PASSWORD reaches
+# both lldap-secret and authelia-secret, which Authelia binds with, so
+# renewing one file alone would leave the two disagreeing.
+write_cluster_secrets() {
+    local cluster_dir="$1"
+    local name secret
+
+    for name in "${SECRET_NAMES[@]}"; do
+        secret="$REPO_ROOT/$cluster_dir/$name.sops.yaml"
+        envsubst < "$REPO_ROOT/$cluster_dir/$name.template.yaml" > "$secret"
+        sops -e -i "$secret"
+        echo "Wrote $cluster_dir/$name.sops.yaml"
+    done
+}
+
+# Called once per cluster, so that two clusters never share a password.
+generate_cluster_values() {
     export CLUSTER_AGE_KEY
     CLUSTER_AGE_KEY=$(grep -v '^#' "$CLUSTER_KEY" | tr -d '\n')
 
@@ -161,26 +202,6 @@ generate_secrets() {
     AUTHELIA_SESSION_SECRET=$(openssl rand -hex 32)
     export AUTHELIA_STORAGE_ENCRYPTION_KEY
     AUTHELIA_STORAGE_ENCRYPTION_KEY=$(openssl rand -hex 32)
-
-    envsubst < "$AGE_KEY_TEMPLATE" > "$AGE_KEY_SECRET"
-    envsubst < "$GITEA_TEMPLATE" > "$GITEA_SECRET"
-    envsubst < "$CLUSTER_SETTINGS_TEMPLATE" > "$CLUSTER_SETTINGS_SECRET"
-    envsubst < "$WEBHOOK_TOKEN_TEMPLATE" > "$WEBHOOK_TOKEN_SECRET"
-    envsubst < "$AUTHELIA_TEMPLATE" > "$AUTHELIA_SECRET"
-    envsubst < "$LLDAP_TEMPLATE" > "$LLDAP_SECRET"
-
-    echo "Generated secret files from templates"
-}
-
-encrypt_secrets() {
-    export SOPS_AGE_KEY_FILE="$USER_KEY"
-    sops -e -i "$AGE_KEY_SECRET"
-    sops -e -i "$GITEA_SECRET"
-    sops -e -i "$CLUSTER_SETTINGS_SECRET"
-    sops -e -i "$WEBHOOK_TOKEN_SECRET"
-    sops -e -i "$AUTHELIA_SECRET"
-    sops -e -i "$LLDAP_SECRET"
-    echo "Encrypted all secret files"
 }
 
 print_summary() {
@@ -195,17 +216,25 @@ Keys:
 SOPS config: $SOPS_CONFIG
 
 Encrypted secrets:
-  $AGE_KEY_SECRET
-  $GITEA_SECRET
-  $CLUSTER_SETTINGS_SECRET
-  $WEBHOOK_TOKEN_SECRET
+$(list_secrets)
 
 Next steps:
   1. Keep .secrets/ safe — it is gitignored but not backed up
-  2. Update placeholder values in secret-cluster-settings.sops.yaml:
-     SOPS_AGE_KEY_FILE=$USER_KEY sops $CLUSTER_SETTINGS_SECRET
+  2. Update the CHANGE-ME values in each cluster's
+     flux/vars/secret-cluster-settings.sops.yaml:
+     SOPS_AGE_KEY_FILE=$USER_KEY sops <file>
   3. Commit .sops.yaml and the encrypted secret files to git
 SUMMARY
+}
+
+list_secrets() {
+    local cluster_dir name
+
+    for cluster_dir in "${CLUSTER_DIRS[@]}"; do
+        for name in "${SECRET_NAMES[@]}"; do
+            echo "  $cluster_dir/$name.sops.yaml"
+        done
+    done
 }
 
 main "$@"
