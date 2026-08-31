@@ -1,0 +1,34 @@
+all:
+  hosts:
+    demo-node-01-microvm:
+      ansible_host: 192.0.2.21
+      microvm_host: 192.0.2.10
+    demo-node-02-microvm:
+      ansible_host: 192.0.2.22
+      microvm_host: 192.0.2.11
+    demo-node-03-microvm:
+      ansible_host: 192.0.2.23
+      microvm_host: 192.0.2.12
+    # Needed, so that "inventory_dir" is defined
+    localhost:
+      ansible_connection: local
+  children:
+    initial_controller:
+      hosts:
+        demo-node-01-microvm:
+    controllers:
+      hosts:
+        demo-node-02-microvm:
+        demo-node-03-microvm:
+    workers:
+      hosts:
+    workers_to_join:
+      hosts:
+  vars:
+    ansible_user: root
+    artifacts_dir: "{{ inventory_dir }}/artifacts/demo-three-node-microvm"
+    nixos_flake: "{{ inventory_dir }}/.."
+    microvm_activate: restart
+    skip_rook_ceph: true
+    # Must match the size nixos/profiles/demo-microvm.nix declares
+    microvm_ceph_volume_size: 20480M
