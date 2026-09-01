@@ -17,6 +17,7 @@
     enable = true;
     role = "controller+worker";
     cluster.isLeader = isLeader;
+    cluster.multipleControllers = true;
     serialConsole = true;
     inherit network sshAuthorizedKeys;
   };
