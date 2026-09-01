@@ -31,8 +31,8 @@ Log into the web UI
 ===================
 
 LLDAP is served at ``https://lldap.<cluster_domain>``, taking
-``cluster_domain`` from
-``kubernetes/cluster-demo/flux/vars/cluster-settings.yaml``. The
+``cluster_domain`` from ``flux/vars/cluster-settings.yaml`` under the
+cluster you deployed in ``kubernetes/``. The
 cluster publishes no DNS, so the names have to resolve to
 ``cluster_ingress_ip`` from the workstation you browse from — through
 entries in its ``/etc/hosts``, or records in whichever resolver it

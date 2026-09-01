@@ -15,7 +15,8 @@ Prerequisites
 
 For running a local QEMU VM, see :doc:`run-qemu-vm`.
 For deploying as a microVM on an existing NixOS host, see
-:doc:`run-microvm`.
+:doc:`run-microvm`, or :doc:`run-three-node-microvm` for a three node
+cluster across three hosts.
 
 
 Clone the repository

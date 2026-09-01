@@ -1,5 +1,7 @@
 # Configuration file for the Sphinx documentation builder.
 
+from pathlib import Path
+
 # -- Project information -----------------------------------------------------
 
 project = 'demo-ops'
@@ -46,9 +48,15 @@ latex_documents = [
 ]
 
 
+# Vendored rather than fetched: a nix build has no network. Refresh
+# with docs/update-inventory-files.sh when a referenced label moves.
+_business_operations_inventory = (
+    Path(__file__).parent / '_inventory/business-operations.inv'
+)
+
 intersphinx_mapping = {
     'bo': (
         'https://business-operations.codeberg.page/business-operations/',
-        None,
+        (str(_business_operations_inventory), None),
     ),
 }

@@ -3,8 +3,9 @@
 Example deployment showing how to consume
 [business-operations](https://codeberg.org/business-operations/business-operations).
 
-This repository defines a minimal single-node k0s cluster, covering
-NixOS deployment and cluster bootstrap with Cilium and OpenEBS.
+This repository defines a minimal k0s cluster, on a single node or on
+three, covering NixOS deployment and cluster bootstrap with Cilium and
+OpenEBS.
 
 - Documentation: <https://business-operations.codeberg.page/demo-ops/>
 - Source code: <https://codeberg.org/business-operations/demo-ops>
@@ -12,7 +13,8 @@ NixOS deployment and cluster bootstrap with Cilium and OpenEBS.
 
 ## Status - Experimental
 
-This is an early example. Application layers are not yet included.
+This is an early example. Its application layer covers cert-manager,
+LLDAP and Authelia rather than the platform's full set.
 
 See the [getting started guide](https://business-operations.codeberg.page/demo-ops/getting-started.html)
 for deployment instructions.

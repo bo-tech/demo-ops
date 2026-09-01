@@ -7,6 +7,8 @@ NixOS host using `microvm.nix
 <https://github.com/microvm-nix/microvm.nix>`_.
 This is an alternative to the :doc:`QEMU approach <run-qemu-vm>` and
 is useful when you already have a NixOS machine with spare capacity.
+For a cluster that survives losing a node, see
+:doc:`run-three-node-microvm`.
 
 
 Prerequisites
