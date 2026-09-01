@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788265174,
-        "narHash": "sha256-dpRnxBhEhXMAp9nud7N4rh4FyJnLMdQ2z1T2hJ+tZqE=",
+        "lastModified": 1788285751,
+        "narHash": "sha256-B2UtFvvX+lSmt3s4FVjVloeTb0XkXmo0DhMfEa5SChY=",
         "ref": "refs/heads/main",
-        "rev": "b1f5754ffe8371395ff9cf29275595cf9a74d45a",
-        "revCount": 300,
+        "rev": "54e08a72410a98c5a6475a012b88df1bded16ccb",
+        "revCount": 305,
         "type": "git",
         "url": "https://codeberg.org/business-operations/business-operations"
       },
@@ -68,11 +68,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787710894,
-        "narHash": "sha256-R54FKfyzX/OaDmTF//2dpyuOEWjDKhKVMa6cGVfa3ag=",
+        "lastModified": 1788191733,
+        "narHash": "sha256-T/jJo6SiitEfhPLCEZQbfHb67eAv29zxSWpOql9vXfE=",
         "owner": "nix-community",
         "repo": "k0s-nix",
-        "rev": "a740840dd171c80d092d05389b957b435db9986b",
+        "rev": "36033c7bc7518d4ada6776e5a23cba6cdca08ccc",
         "type": "github"
       },
       "original": {
@@ -88,11 +88,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787710894,
-        "narHash": "sha256-R54FKfyzX/OaDmTF//2dpyuOEWjDKhKVMa6cGVfa3ag=",
+        "lastModified": 1788191733,
+        "narHash": "sha256-T/jJo6SiitEfhPLCEZQbfHb67eAv29zxSWpOql9vXfE=",
         "owner": "nix-community",
         "repo": "k0s-nix",
-        "rev": "a740840dd171c80d092d05389b957b435db9986b",
+        "rev": "36033c7bc7518d4ada6776e5a23cba6cdca08ccc",
         "type": "github"
       },
       "original": {
