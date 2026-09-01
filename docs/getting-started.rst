@@ -9,7 +9,6 @@ Prerequisites
 =============
 
 - `Nix <https://nixos.org/>`_ with flakes enabled
-- ``age-keygen`` and ``sops`` available
 - A machine reachable via SSH (bare-metal, cloud VM, or local QEMU/UTM VM)
 - Ideally the machine can claim multiple IP addresses
 
@@ -35,6 +34,14 @@ Create a working branch for your customizations:
 
    cd demo-ops
    git checkout -b my-deployment
+
+Enter the dev shell, which carries the tools this guide uses:
+
+.. code-block:: bash
+
+   nix develop
+
+See :doc:`development` for what it provides.
 
 
 .. _sec-getting-started-configuration:

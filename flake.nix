@@ -13,6 +13,8 @@
     "git+https://codeberg.org/business-operations/business-operations";
   inputs.business-operations.inputs.nixpkgs.follows = "nixpkgs";
 
+  inputs.flake-utils.follows = "business-operations/flake-utils";
+
   inputs.microvm.url = "github:microvm-nix/microvm.nix";
   inputs.microvm.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -20,6 +22,7 @@
     self,
     business-operations,
     disko,
+    flake-utils,
     k0s-nix,
     microvm,
     nixpkgs,
@@ -111,5 +114,18 @@
         hostModule = ./nixos/hosts/dev-microvm.nix;
       };
     };
-  };
+  }
+  // flake-utils.lib.eachDefaultSystem (system: let
+    pkgs = nixpkgs.legacyPackages.${system};
+  in {
+    devShells.default = pkgs.mkShell {
+      packages = [
+        pkgs.age
+        pkgs.gettext
+        pkgs.openssl
+        pkgs.sops
+        pkgs.uv
+      ];
+    };
+  });
 }

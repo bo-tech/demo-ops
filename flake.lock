@@ -142,6 +142,10 @@
       "inputs": {
         "business-operations": "business-operations",
         "disko": "disko",
+        "flake-utils": [
+          "business-operations",
+          "flake-utils"
+        ],
         "k0s-nix": "k0s-nix_2",
         "microvm": "microvm",
         "nixpkgs": "nixpkgs"

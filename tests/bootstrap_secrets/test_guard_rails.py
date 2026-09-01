@@ -25,8 +25,8 @@ def test_fails_if_already_bootstrapped(repo_dir, run_bootstrap, blocking_file):
 
 @pytest.mark.parametrize(
     "missing_tool",
-    ["sops", "age-keygen"],
-    ids=["sops", "age_keygen"],
+    ["sops", "age-keygen", "envsubst"],
+    ids=["sops", "age_keygen", "envsubst"],
 )
 def test_fails_if_tool_missing(repo_dir, run_bootstrap, missing_tool):
     path_without_tool = os.pathsep.join(
@@ -39,4 +39,5 @@ def test_fails_if_tool_missing(repo_dir, run_bootstrap, missing_tool):
     result = run_bootstrap(env=env)
 
     assert result.returncode != 0
+    assert "Missing required tools" in result.stderr
     assert missing_tool in result.stderr
