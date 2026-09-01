@@ -14,6 +14,7 @@ demo-ops
    first-login
    usage
    known-issues
+   development
    decision-log
 
 
