@@ -49,6 +49,13 @@ Enter the ansible development shell:
 
    nix develop ./external/business-operations#ansible
 
+Export the path to the age key. ``bootstrap-cluster.yaml`` decrypts a
+SOPS file, and fails at that step without it:
+
+.. code-block:: bash
+
+   export SOPS_AGE_KEY_FILE="${PWD}/.secrets/age-user.key"
+
 Deploy the microVM to the hypervisor host:
 
 .. code-block:: bash
