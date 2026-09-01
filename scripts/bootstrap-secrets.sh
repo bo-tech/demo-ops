@@ -80,10 +80,11 @@ check_prerequisites() {
     local missing=()
     command -v age-keygen >/dev/null 2>&1 || missing+=(age-keygen)
     command -v sops >/dev/null 2>&1 || missing+=(sops)
+    command -v envsubst >/dev/null 2>&1 || missing+=(envsubst)
 
     if [[ ${#missing[@]} -gt 0 ]]; then
         echo "ERROR: Missing required tools: ${missing[*]}" >&2
-        echo "Install with: nix shell nixpkgs#age nixpkgs#sops" >&2
+        echo "The dev shell carries them: nix develop" >&2
         exit 1
     fi
 }
