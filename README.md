@@ -13,7 +13,8 @@ OpenEBS.
 
 ## Status - Experimental
 
-This is an early example. Application layers are not yet included.
+This is an early example. Its application layer covers cert-manager,
+LLDAP and Authelia rather than the platform's full set.
 
 See the [getting started guide](https://business-operations.codeberg.page/demo-ops/getting-started.html)
 for deployment instructions.
