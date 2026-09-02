@@ -115,9 +115,14 @@
       };
     };
   }
-  // flake-utils.lib.eachDefaultSystem (system: let
+  // flake-utils.lib.eachSystem [
+    "x86_64-linux"
+    "aarch64-linux"
+  ] (system: let
     pkgs = nixpkgs.legacyPackages.${system};
   in {
+    formatter = pkgs.nixfmt-tree;
+
     devShells.default = pkgs.mkShell {
       packages = [
         pkgs.age

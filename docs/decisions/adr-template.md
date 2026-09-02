@@ -3,7 +3,7 @@ date: {YYYY-MM-DD when the decision was last updated}
 ---
 
 (adr-NNNN)=
-# NNNN Short title
+# ADR-NNNN Short title
 
 ## Context and Problem Statement
 

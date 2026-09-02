@@ -1,6 +1,11 @@
 # Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
-_commit: v0.0.10
-_src_path: gh:bo-tech/default-repository
-contact: joh@bo-tech.de
+_commit: v0.0.38
+_src_path: https://codeberg.org/johbo/default-repository.git
+contact: johannes@bornhold.name
+copyright_holder: Johannes Bornhold
+language: none
+license: AGPL-3.0-or-later
 project_name: demo-ops
-sphinx_builder_url: git+https://codeberg.org/johbo/sphinx-builder
+sphinx_builder_url: git+https://codeberg.org/johbo/sphinx-builder.git
+versioned: false
+visibility: public
