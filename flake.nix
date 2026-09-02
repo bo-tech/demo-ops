@@ -121,6 +121,8 @@
   ] (system: let
     pkgs = nixpkgs.legacyPackages.${system};
   in {
+    formatter = pkgs.nixfmt-tree;
+
     devShells.default = pkgs.mkShell {
       packages = [
         pkgs.age
