@@ -46,8 +46,11 @@ each ``microvm@`` unit and removes the directory above:
 
 .. code-block:: bash
 
-   ansible-playbook -i $INVENTORY \
+   ansible-playbook -i ./ansible/inventory-microvm.yaml \
      $BO_PLAYBOOKS/destroy-microvms.yaml
+
+Pass whichever inventory the deploy used —
+``inventory-three-node-microvm.yaml`` destroys all three guests.
 
 This discards the cluster along with its data, which is what the deploy
 guides assume — they walk a hypervisor that carries no guest yet.
