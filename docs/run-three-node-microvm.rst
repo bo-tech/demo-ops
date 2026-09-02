@@ -92,6 +92,12 @@ SOPS file, and fails at that step without it:
 
 Deploy the three guests to their hypervisors:
 
+.. note::
+
+   This assumes no hypervisor carries its guest yet. Deploying over one
+   keeps its volumes, and the failure surfaces two steps later — see
+   :ref:`sec-redeploy-over-existing-guest`.
+
 .. code-block:: bash
 
    ansible-playbook -i ./ansible/inventory-three-node-microvm.yaml \

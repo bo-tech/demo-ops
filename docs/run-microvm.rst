@@ -60,6 +60,12 @@ SOPS file, and fails at that step without it:
 
 Deploy the microVM to the hypervisor host:
 
+.. note::
+
+   This assumes the hypervisor carries no guest of this name yet.
+   Deploying over one keeps its volumes, and the failure surfaces two
+   steps later — see :ref:`sec-redeploy-over-existing-guest`.
+
 .. code-block:: bash
 
    ansible-playbook -i ./ansible/inventory-microvm.yaml \
