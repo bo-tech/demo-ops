@@ -34,12 +34,15 @@ nix build ./docs#pdf
 
 Build output will be in `result/share/doc/`.
 
-## GitLab CI
+The HTML package treats a Sphinx warning as an error, so a broken
+reference fails the build rather than rendering as plain text. The
+local builds above do not, so a page still being written does not fail
+while you are working on it.
 
-The CI pipeline automatically:
+## Continuous integration
 
-- Builds and validates docs on merge requests
-- Publishes to GitLab Pages on pushes to main branch
+None ships with this repository. A pipeline that builds these docs
+arrives by applying a CI overlay template for the forge that hosts it.
 
 ## Architecture Decision Records
 
