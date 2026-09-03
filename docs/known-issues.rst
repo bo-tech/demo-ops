@@ -28,21 +28,25 @@ accordingly.
 
 .. _sec-redeploy-over-existing-guest:
 
-A re-deploy keeps the guest's volumes
-=====================================
+A deploy over an existing guest is a switch
+===========================================
 
 ``deploy-microvms.yaml`` installs the new closure on the hypervisor and
-restarts the VM, but leaves ``/var/lib/microvms/<guest>`` in place. That
-directory holds ``var.img`` and ``ceph.img``, so the machine comes back
-carrying the etcd and the Flux installation it had before.
+then activates it. On a hypervisor that already carries the guest it
+therefore updates the machine rather than creating one — the microvm.nix
+equivalent of ``nixos-rebuild switch``. ``/var/lib/microvms/<guest>``
+stays, and with it ``var.img`` and ``ceph.img``, so the machine comes
+back carrying the etcd and the Flux installation it had before. That is
+what a deploy means here rather than a fault in it.
 
-``bootstrap-cluster.yaml`` then fails at ``kubectl apply
---server-side``, reporting a field manager conflict against
-``kustomize-controller``. The message names neither the guest nor the
-state it collided with, so the cause is not apparent from it.
+The guides assume a hypervisor with no guest on it, so following one a
+second time does not produce what it describes.
+``bootstrap-cluster.yaml`` stops at ``kubectl apply --server-side`` with
+a field manager conflict against ``kustomize-controller``, a message
+naming neither the guest nor the state it collided with.
 
-**Workaround:** destroy the guests before deploying. The playbook stops
-each ``microvm@`` unit and removes the directory above:
+Destroy the guests first to deploy a machine from scratch. The playbook
+stops each ``microvm@`` unit and removes the directory above:
 
 .. code-block:: bash
 
@@ -50,7 +54,5 @@ each ``microvm@`` unit and removes the directory above:
      $BO_PLAYBOOKS/destroy-microvms.yaml
 
 Pass whichever inventory the deploy used —
-``inventory-three-node-microvm.yaml`` destroys all three guests.
-
-This discards the cluster along with its data, which is what the deploy
-guides assume — they walk a hypervisor that carries no guest yet.
+``inventory-three-node-microvm.yaml`` destroys all three guests. This
+discards the cluster along with its data.
