@@ -28,6 +28,6 @@ or [`@johbo@mastodon.social`](https://mastodon.social/@johbo).
 
 ## License
 
-MIT, see [`LICENSES/MIT.txt`](LICENSES/MIT.txt). The repository follows
+MIT, see the `LICENSES/MIT.txt` file. The repository follows
 [REUSE](https://reuse.software/), so `reuse lint` states the licensing of
 every file.
