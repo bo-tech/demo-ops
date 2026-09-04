@@ -1,0 +1,26 @@
+all:
+  hosts:
+    dev-local-microvm:
+      ansible_host: 192.0.2.21
+      microvm_host: 192.0.2.1
+    # Needed, so that "inventory_dir" is defined
+    localhost:
+      ansible_connection: local
+  children:
+    initial_controller:
+      hosts:
+        dev-local-microvm:
+    controllers:
+      hosts:
+    workers:
+      hosts:
+    workers_to_join:
+      hosts:
+  vars:
+    ansible_user: root
+    artifacts_dir: "{{ inventory_dir }}/artifacts/dev-local-microvm"
+    nixos_flake: "{{ inventory_dir }}/.."
+    microvm_activate: restart
+    skip_rook_ceph: true
+    # Must match the size nixos/profiles/demo-microvm.nix declares
+    microvm_ceph_volume_size: 20480M

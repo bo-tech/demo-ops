@@ -10,6 +10,7 @@ demo-ops
    getting-started
    run-qemu-vm
    run-microvm
+   run-local-microvm
    run-three-node-microvm
    first-login
    usage
