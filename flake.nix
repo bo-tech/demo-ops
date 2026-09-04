@@ -4,7 +4,8 @@
   inputs.disko.url = "github:nix-community/disko";
   inputs.disko.inputs.nixpkgs.follows = "nixpkgs";
 
-  inputs.k0s-nix.url = "github:nix-community/k0s-nix";
+  # TODO: Back to nix-community once k0s-nix PR 141 lands.
+  inputs.k0s-nix.url = "github:johbo/k0s-nix/default-1-36";
   inputs.k0s-nix.inputs.nixpkgs.follows = "nixpkgs";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
