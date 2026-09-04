@@ -12,4 +12,4 @@ patches:
     patch: |
       - op: replace
         path: /spec/path
-        value: ./kubernetes/cluster-demo/apps/security/lldap/app
+        value: ./kubernetes/cluster-demo-multi-node/apps/security/lldap/app
