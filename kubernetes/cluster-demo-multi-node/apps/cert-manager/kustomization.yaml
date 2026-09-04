@@ -13,4 +13,4 @@ patches:
     patch: |
       - op: replace
         path: /spec/path
-        value: ./kubernetes/cluster-demo/apps/cert-manager/certificates
+        value: ./kubernetes/cluster-demo-multi-node/apps/cert-manager/certificates
