@@ -113,6 +113,10 @@
       dev-microvm = mkMicrovmHost {
         hostModule = ./nixos/hosts/dev-microvm.nix;
       };
+
+      dev-local-microvm = mkMicrovmHost {
+        hostModule = ./nixos/hosts/dev-local-microvm.nix;
+      };
     };
   }
   // flake-utils.lib.eachSystem [
