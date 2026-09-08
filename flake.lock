@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788285751,
-        "narHash": "sha256-B2UtFvvX+lSmt3s4FVjVloeTb0XkXmo0DhMfEa5SChY=",
+        "lastModified": 1788816170,
+        "narHash": "sha256-w2HeHXhs/JJtcDXXhchhBfqONdGdaHxDSjmq7AZzCVQ=",
         "ref": "refs/heads/main",
-        "rev": "54e08a72410a98c5a6475a012b88df1bded16ccb",
-        "revCount": 305,
+        "rev": "053797c09a3135584aafc243b5143e7886157e94",
+        "revCount": 461,
         "type": "git",
         "url": "https://codeberg.org/business-operations/business-operations"
       },
@@ -68,15 +68,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1788191733,
-        "narHash": "sha256-T/jJo6SiitEfhPLCEZQbfHb67eAv29zxSWpOql9vXfE=",
-        "owner": "nix-community",
+        "lastModified": 1788546897,
+        "narHash": "sha256-MD1mgcYLBSKP/PzIs/5til/kRlX5Sga/VqpueWkJzms=",
+        "owner": "johbo",
         "repo": "k0s-nix",
-        "rev": "36033c7bc7518d4ada6776e5a23cba6cdca08ccc",
+        "rev": "f7406407881dbd5907b3e31ac9ead5a0b7e64192",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
+        "owner": "johbo",
+        "ref": "default-1-36",
         "repo": "k0s-nix",
         "type": "github"
       }
