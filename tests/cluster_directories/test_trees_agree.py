@@ -37,9 +37,15 @@ def test_both_clusters_hold_the_same_files():
     assert non_secret_files(SINGLE_NODE) == non_secret_files(MULTI_NODE)
 
 
+def normalized(cluster_dir, name):
+    return (cluster_dir / name).read_text().replace(
+        f"./kubernetes/{cluster_dir.name}/", "./kubernetes/<cluster>/"
+    )
+
+
 @pytest.mark.parametrize("name", shared_files())
 def test_shared_file_has_not_drifted(name):
-    assert (SINGLE_NODE / name).read_text() == (MULTI_NODE / name).read_text()
+    assert normalized(SINGLE_NODE, name) == normalized(MULTI_NODE, name)
 
 
 @pytest.mark.parametrize("name", sorted(INTENDED_DIFFERENCES))
