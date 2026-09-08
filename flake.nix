@@ -28,24 +28,22 @@
     microvm,
     nixpkgs,
   }: let
-    sharedModules = [
+    commonModules = [
       business-operations.nixosModules.profile-k0s-node
       business-operations.nixosModules.business-operations
       business-operations.nixosModules.cache-proxy
       business-operations.nixosModules.registry-mirror
-      disko.nixosModules.disko
       k0s-nix.nixosModules.default
+    ];
+
+    sharedModules = commonModules ++ [
+      disko.nixosModules.disko
       ./nixos/machine-classes/k0s-node-vm-disks.nix
     ];
 
-    microvmSharedModules = [
-      business-operations.nixosModules.profile-k0s-node
-      business-operations.nixosModules.business-operations
-      business-operations.nixosModules.cache-proxy
-      business-operations.nixosModules.registry-mirror
+    microvmSharedModules = commonModules ++ [
       business-operations.nixosModules.microvm-guest
       microvm.nixosModules.microvm
-      k0s-nix.nixosModules.default
     ];
 
     nixpkgs-config-gen = system: {
