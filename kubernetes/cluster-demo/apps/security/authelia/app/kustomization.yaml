@@ -5,7 +5,7 @@ namespace: security
 
 resources:
   - ../../../../../../external/business-operations/kubernetes/apps/security/authelia/app/helmrelease.yaml
-  - ../../../../../../external/business-operations/kubernetes/apps/security/authelia/app/ingress-headers-configmap.yaml
+  - ../../../../../../external/business-operations/kubernetes/apps/security/authelia/app/httproute.yaml
   - ./authelia-secret.sops.yaml
 
 commonLabels:

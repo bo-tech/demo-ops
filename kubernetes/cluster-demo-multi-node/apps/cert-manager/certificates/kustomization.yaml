@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - ./self-signed-issuer.yaml
   - ./wildcard-certificate.yaml
+  - ../../../../../external/business-operations/kubernetes/shared/gateway-tls-referencegrant
