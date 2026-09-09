@@ -29,7 +29,7 @@ data:
 
   # The main domain of the cluster.
   #
-  # Make sure that the DNS resolves to the cluster_ingress_ip.
+  # Make sure that the DNS resolves to the cluster_internal_traefik_ip.
   cluster_domain: business-operations.example
 
   # Cluster Kubernetes API
@@ -38,7 +38,7 @@ data:
   # IP Addresses used to provide various services
   coredns_ip: "192.0.2.2"
   gitlab_ingress_ip: "192.0.2.3"
-  cluster_ingress_ip: "192.0.2.4"
+  cluster_internal_traefik_ip: "192.0.2.4"
   unifi_ip: "192.0.2.5"
   cache_proxy_ip: "192.0.2.6"
 
