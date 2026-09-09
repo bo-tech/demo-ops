@@ -10,7 +10,6 @@ MULTI_NODE = REPO_ROOT / "kubernetes/cluster-demo-multi-node"
 INTENDED_DIFFERENCES = {
     "flux/vars/cluster-settings.yaml",
     "base-apps/rook-ceph/kustomization.yaml",
-    "flux/config/kustomization.yaml",
 }
 
 
