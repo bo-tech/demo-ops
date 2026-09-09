@@ -51,8 +51,10 @@ Enter the ansible development shell:
 
    nix develop ./external/business-operations#ansible
 
-Export the path to the age key. ``bootstrap-cluster.yaml`` decrypts a
-SOPS file, and fails at that step without it:
+Export the path to the age key. Kluctl decrypts the SOPS files while
+rendering, and fails without it. It has to be this repository's own
+key: a global age identity is not one of the recipients, and the error
+only says that no identity matched.
 
 .. code-block:: bash
 
@@ -87,12 +89,20 @@ Bootstrap the Kubernetes cluster:
    ansible-playbook -i ./ansible/inventory-microvm.yaml \
      $BO_PLAYBOOKS/bootstrap-existing-machines.yaml
 
-Kick off FluxCD:
+Kick off FluxCD. The first command deploys the bootstrap, the cluster
+settings and the Flux configuration; the second pushes the repository
+Flux reconciles from:
 
 .. code-block:: bash
 
+   export KUBECONFIG="${PWD}/ansible/artifacts/demo-single-node-microvm/kubeconfig.yaml"
+   kluctl deploy -t cluster-demo
+
    ansible-playbook -i ./ansible/inventory-microvm.yaml \
-     $BO_PLAYBOOKS/bootstrap-cluster.yaml
+     $BO_PLAYBOOKS/git-push-into-cluster.yaml
+
+``kluctl deploy`` is re-runnable against a live cluster, so a change to
+anything it owns is applied by running it again.
 
 
 Result

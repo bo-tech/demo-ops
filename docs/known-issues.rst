@@ -40,10 +40,10 @@ back carrying the etcd and the Flux installation it had before. That is
 what a deploy means here rather than a fault in it.
 
 The guides assume a hypervisor with no guest on it, so following one a
-second time does not produce what it describes.
-``bootstrap-cluster.yaml`` stops at ``kubectl apply --server-side`` with
-a field manager conflict against ``kustomize-controller``, a message
-naming neither the guest nor the state it collided with.
+second time does not produce what it describes. The cluster that comes
+back is the previous one, and the bootstrap then runs against a Flux
+that is already reconciling. Whatever it reports, the state is the old
+guest's rather than a fresh cluster's.
 
 Destroy the guests first to deploy a machine from scratch. The playbook
 stops each ``microvm@`` unit and removes the directory above:

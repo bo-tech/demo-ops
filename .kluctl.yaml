@@ -1,0 +1,13 @@
+---
+discriminator: "demo-ops-{{ target.name }}"
+
+targets:
+  - name: cluster-demo
+    args:
+      cluster_path: kubernetes/cluster-demo
+  - name: cluster-demo-multi-node
+    args:
+      cluster_path: kubernetes/cluster-demo-multi-node
+
+args:
+  - name: cluster_path
