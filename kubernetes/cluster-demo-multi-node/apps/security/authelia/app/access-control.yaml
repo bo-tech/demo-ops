@@ -19,8 +19,18 @@ access_control:
         - "group:admins"
       policy: one_factor
     - domain:
+        - "hubble.${cluster_domain}"
+      subject:
+        - "group:admins"
+      policy: one_factor
+    - domain:
         - "lldap.${cluster_domain}"
       subject:
         - "group:admins"
         - "user:admin"
+      policy: one_factor
+    - domain:
+        - "rook-main.${cluster_domain}"
+      subject:
+        - "group:admins"
       policy: one_factor
