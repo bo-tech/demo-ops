@@ -6,6 +6,4 @@ resources:
   - ./cluster-apps.yaml
   - ./cluster-base-apps.yaml
   - ./cluster-secrets.yaml
-  - ./config
   - ../../../external/business-operations/kubernetes/flux/repositories
-  - ./vars

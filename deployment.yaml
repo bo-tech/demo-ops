@@ -1,0 +1,19 @@
+---
+deployments:
+  - include: external/business-operations/kubernetes/bootstrap
+  - path: "{{ args.cluster_path }}/bootstrap/gitea"
+  - barrier: true
+    message: "Flux is up and Gitea serves before Flux takes over"
+    waitReadinessObjects:
+      - kind: Deployment
+        namespace: flux-bootstrap
+        name: gitea
+      - group: batch
+        kind: Job
+        namespace: flux-bootstrap
+        name: create-repo-job
+  - path: "{{ args.cluster_path }}/bootstrap"
+  - path: "{{ args.cluster_path }}/flux/vars"
+  - include: external/business-operations/kubernetes/flux/config
+    args:
+      cluster_path: "{{ args.cluster_path }}"

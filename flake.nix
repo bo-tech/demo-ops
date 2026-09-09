@@ -14,6 +14,10 @@
     "git+https://codeberg.org/business-operations/business-operations";
   inputs.business-operations.inputs.nixpkgs.follows = "nixpkgs";
 
+  # TODO: Drop once nixpkgs carries kluctl 2.28.2, it is still on 2.27.0.
+  inputs.johpkgs.url = "git+https://codeberg.org/johbo/johpkgs.git";
+  inputs.johpkgs.inputs.nixpkgs.follows = "nixpkgs";
+
   inputs.flake-utils.follows = "business-operations/flake-utils";
 
   inputs.microvm.url = "github:microvm-nix/microvm.nix";
@@ -24,6 +28,7 @@
     business-operations,
     disko,
     flake-utils,
+    johpkgs,
     k0s-nix,
     microvm,
     nixpkgs,
@@ -31,8 +36,8 @@
     commonModules = [
       business-operations.nixosModules.profile-k0s-node
       business-operations.nixosModules.business-operations
-      business-operations.nixosModules.cache-proxy
       business-operations.nixosModules.registry-mirror
+      ./nixos/profiles/registry-mirror.nix
       k0s-nix.nixosModules.default
     ];
 
@@ -132,6 +137,7 @@
       packages = [
         pkgs.age
         pkgs.gettext
+        johpkgs.packages.${system}.kluctl
         pkgs.openssl
         pkgs.sops
         pkgs.uv

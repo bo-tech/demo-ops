@@ -137,6 +137,18 @@ Bootstrap the cluster:
 For aarch64 VMs use the ``-aarch64`` inventory and flake config
 variants (e.g. ``demo-single-node-aarch64``).
 
+Then start FluxCD. The first command deploys the bootstrap, the cluster
+settings and the Flux configuration; the second pushes the repository
+Flux reconciles from:
+
+.. code-block:: bash
+
+   export KUBECONFIG="${PWD}/ansible/artifacts/demo-single-node/kubeconfig.yaml"
+   kluctl deploy -t cluster-demo
+
+   ansible-playbook -i ./ansible/inventory-single-node.yaml \
+     $BO_PLAYBOOKS/git-push-into-cluster.yaml
+
 
 Result
 ======
