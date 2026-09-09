@@ -57,7 +57,7 @@ The cluster
 
 Set the load balancer addresses in
 ``kubernetes/cluster-demo-multi-node/flux/vars/cluster-settings.yaml``.
-The Cilium pools and ``cluster_ingress_ip`` must lie inside the guests'
+The Cilium pools and ``cluster_internal_traefik_ip`` must lie inside the guests'
 subnet; :doc:`getting-started` explains why.
 
 Set ``cluster_service_host`` to the address of the first node. The

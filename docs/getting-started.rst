@@ -59,7 +59,7 @@ Then set the load balancer addresses in
 ``kubernetes/cluster-demo/flux/vars/cluster-settings.yaml``. The two
 Cilium pools, ``cilium_static_pool_cidr`` and ``cilium_pool_cidr``,
 must lie inside the machine's own subnet, and so must
-``cluster_ingress_ip``, which is handed out from the static pool.
+``cluster_internal_traefik_ip``, which is handed out from the static pool.
 Cilium announces these addresses by answering ARP on the machine's
 link, and a client only sends an ARP request for an address it
 considers on-link, so a pool outside the subnet is announced to
